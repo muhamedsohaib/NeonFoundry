@@ -138,7 +138,7 @@ export const CanonicalInfographicSchema = z.object({
     sourceLayoutGuess: LayoutFamilySchema.optional(),
     compositionConfidence: z.number().min(0).max(1).optional(),
     visualNotes: z.array(z.string().min(1)).default([]),
-  }).strict().default({ emphasisOrder: [], visualNotes: [] }),
+  }).strict().prefault({}),
 }).strict();
 
 export type CanonicalInfographic = z.infer<typeof CanonicalInfographicSchema>;
