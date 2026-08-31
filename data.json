@@ -1,0 +1,128 @@
+{
+  "hero": {
+    "tag": "CASE STUDY  |  VALIDATION & QUALITY ASSURANCE",
+    "titleLine1": "VALIDATE.",
+    "titleLine2": "VERIFY.",
+    "titleHighlight": "DELIVER CONFIDENCE.",
+    "subtitle": "QUALITY ASSURANCE THAT PROVES THE FIX AND PREVENTS REPEAT ISSUES.",
+    "pillNav": [
+      "RIGOROUS QA",
+      "DATA VALIDATION",
+      "TRACEABILITY",
+      "CONTINUOUS IMPROVEMENT"
+    ],
+    "description": "Every remediation is validated through a multi-layer QA process to ensure accuracy, compliance, and lasting catalog integrity."
+  },
+  "checklist": {
+    "title": "QUALITY ASSURANCE CHECKLIST",
+    "items": [
+      { "icon": "userCheck", "checkpoint": "Parent / Child Structure Validated", "status": "Passed" },
+      { "icon": "layers", "checkpoint": "Variation Theme & Attributes Verified", "status": "Passed" },
+      { "icon": "fileCheck", "checkpoint": "Required Attributes Present", "status": "Passed" },
+      { "icon": "sliders", "checkpoint": "Attribute Values Validated", "status": "Passed" },
+      { "icon": "shield", "checkpoint": "Contribution Status Verified", "status": "Passed" },
+      { "icon": "database", "checkpoint": "Data Consistency Checks", "status": "Passed" },
+      { "icon": "checkSquare", "checkpoint": "Policy & Compliance Review", "status": "Passed" },
+      { "icon": "penTool", "checkpoint": "QA Sign-off", "status": "Passed" }
+    ],
+    "badge": {
+      "title": "ALL CHECKS PASSED",
+      "subtitle": "Catalog fix validated and approved."
+    }
+  },
+  "metrics": {
+    "title": "VALIDATION METRICS",
+    "cards": [
+      {
+        "icon": "alert",
+        "value": "23",
+        "label": "Issues Detected",
+        "sub": "Identified during diagnosis",
+        "color": "red"
+      },
+      {
+        "icon": "wrench",
+        "value": "23",
+        "label": "Issues Resolved",
+        "sub": "All identified issues remediated",
+        "color": "orange"
+      },
+      {
+        "icon": "clipboard",
+        "value": "100%",
+        "label": "QA Checks Passed",
+        "sub": "All validations successful",
+        "color": "lime"
+      },
+      {
+        "icon": "signal",
+        "value": "100%",
+        "label": "Catalog Integrity",
+        "sub": "Issues resolved with confidence",
+        "color": "lime"
+      }
+    ]
+  },
+  "prevention": {
+    "title": "ERROR PREVENTION & CONTROLS",
+    "bulletPoints": [
+      "Standardized templates for listings & variations",
+      "Pre-upload validation rules & automated checks",
+      "Attribute mapping governance",
+      "Change review and approval workflow",
+      "Regular audits and catalog health monitoring",
+      "Issue trend analysis and root-cause learning"
+    ],
+    "cycle": [
+      { "title": "MONITOR", "desc": "Continuously monitor catalog health", "position": "top" },
+      { "title": "PREVENT", "desc": "Detect issues early through monitoring", "position": "right" },
+      { "title": "DETECT", "desc": "Detect issues early through monitoring", "position": "bottom" },
+      { "title": "IMPROVE", "desc": "Refine processes and controls", "position": "left" }
+    ]
+  },
+  "steps": [
+    {
+      "number": 1,
+      "title": "QA CHECKS",
+      "desc": "Structured checks across critical catalog elements.",
+      "icon": "clipboard"
+    },
+    {
+      "number": 2,
+      "title": "DATA VALIDATION",
+      "desc": "Verify data accuracy, consistency & completeness.",
+      "icon": "database"
+    },
+    {
+      "number": 3,
+      "title": "RELATIONSHIP VERIFICATION",
+      "desc": "Ensure correct parent/child structure and linkages.",
+      "icon": "link"
+    },
+    {
+      "number": 4,
+      "title": "CHANGE TRACEABILITY",
+      "desc": "All changes logged with timestamps and user ID.",
+      "icon": "file"
+    },
+    {
+      "number": 5,
+      "title": "POLICY & COMPLIANCE",
+      "desc": "Validate against Amazon policies and guidelines.",
+      "icon": "shield"
+    },
+    {
+      "number": 6,
+      "title": "CONTINUOUS IMPROVEMENT",
+      "desc": "Learn from issues and strengthen controls.",
+      "icon": "refresh"
+    }
+  ],
+  "footer": {
+    "duration": "7–30 DAYS",
+    "scope": "CATALOG DIAGNOSTICS + REMEDIATION",
+    "industry": "RETAIL & WHOLESALE",
+    "focus": "ACCURACY • PERFORMANCE • GROWTH",
+    "disclaimer": "Independent Amazon marketplace services • Not affiliated with or endorsed by Amazon"
+  }
+}

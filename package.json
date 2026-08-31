@@ -1,0 +1,26 @@
+{
+  "name": "satori-infographics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^7.8.0",
+    "react": "^19.2.8",
+    "satori": "^0.33.4"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
