@@ -253,3 +253,23 @@ it('removes duplicate hero title tags and generic evidence prefixes', () => {
   expect(evidence?.kind).toBe('bullet-list');
   if (evidence?.kind === 'bullet-list') expect(evidence.items).toEqual(['CHANGE LOG: All changes logged', 'QA CHECKS: Manual QA passed']);
 });
+
+it('preserves concrete field-mapping comparisons when table conversion is not possible', () => {
+  const doc = parseCanonicalInfographic({
+    meta: { version: 1, intent: 'comparison', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'CATALOG MAPPING' },
+    sections: [{
+      id: 'field-mapping-notes', kind: 'comparison', title: 'FIELD MAPPING NOTES',
+      columns: [
+        { label: 'OLD STATE', items: ['Mixed colors', 'One size'] },
+        { label: 'NEW STATE', items: ['Black, White, Blue', 'Standard, Large'] },
+      ],
+    }],
+    footer: { facts: [] }, sourceHints: {},
+  });
+  const repaired = repairExtractedSemantics(doc);
+  expect(repaired.sections).toHaveLength(1);
+  expect(repaired.sections[0]?.kind).toBe('comparison');
+  expect(JSON.stringify(repaired.sections[0])).toContain('Mixed colors');
+  expect(JSON.stringify(repaired.sections[0])).toContain('Standard, Large');
+});

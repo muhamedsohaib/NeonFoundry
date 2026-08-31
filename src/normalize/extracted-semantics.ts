@@ -358,8 +358,11 @@ export function repairExtractedSemantics(data: CanonicalInfographic): CanonicalI
   }
 
   for (const section of data.sections) {
-    if (isFieldMapping(section)) {
-      if (!emittedFieldTable && fieldTable) {
+    if (section.kind === 'comparison' && isFieldMapping(section)) {
+      const converted = comparisonToTable(section);
+      if (!converted) {
+        sections.push(section);
+      } else if (!emittedFieldTable && fieldTable) {
         sections.push(fieldTable);
         emittedFieldTable = true;
       }
