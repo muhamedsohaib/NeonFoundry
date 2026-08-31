@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "report",
+    "layoutFamily": "dashboard",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "OPERATIONS BRIEF / Q3",
+    "title": "SYSTEM HEALTH AT A GLANCE",
+    "highlight": "ALL SIGNALS VISIBLE.",
+    "subtitle": "A concise view of reliability, velocity, and customer impact.",
+    "tags": ["RELIABILITY", "DELIVERY", "QUALITY"]
+  },
+  "sections": [
+    {
+      "id": "core-metrics",
+      "kind": "metric-grid",
+      "title": "CORE SIGNALS",
+      "metrics": [
+        { "label": "Uptime", "value": "99.98%", "detail": "+0.04% vs target", "tone": "success" },
+        { "label": "Deploy frequency", "value": "18/wk", "detail": "+3 week over week", "tone": "neon" },
+        { "label": "Open incidents", "value": "02", "detail": "No critical impact", "tone": "warning" },
+        { "label": "Customer CSAT", "value": "94", "detail": "+6 points", "tone": "success" }
+      ]
+    },
+    {
+      "id": "priorities",
+      "kind": "bullet-list",
+      "title": "NEXT PRIORITIES",
+      "description": "Focused work for the next operating window.",
+      "items": [
+        "Reduce alert noise in the checkout service",
+        "Complete resilience tests for regional failover",
+        "Publish the new incident response playbook"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      { "label": "Window", "value": "JUL–SEP" },
+      { "label": "Scope", "value": "12 SERVICES" },
+      { "label": "Owner", "value": "PLATFORM OPS" }
+    ],
+    "disclaimer": "Internal operating snapshot • Generated from approved source data"
+  },
+  "sourceHints": {
+    "preferredColumns": 2
+  }
+}
