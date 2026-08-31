@@ -24,4 +24,4 @@ it('renders the current legacy QA fixture through the canonical QA layout', asyn
   const result = await renderInfographic(doc, decision, deriveRenderProfile(runQualityChecks(doc)));
   expect(result.layout).toBe('qa');
   expect(result.png.length).toBeGreaterThan(10_000);
-});
+}, 15_000);

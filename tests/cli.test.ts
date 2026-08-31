@@ -9,6 +9,8 @@ it('registers all four user-facing commands', () => {
 it('requires --input for generate', async () => {
   const program = createProgram();
   program.exitOverride();
+  program.configureOutput({ writeErr: () => undefined });
+  for (const command of program.commands) command.configureOutput({ writeErr: () => undefined });
   await expect(
     program.parseAsync(['node', 'cli', 'generate'], { from: 'node' }),
   ).rejects.toMatchObject({ code: 'commander.missingMandatoryOptionValue' });
