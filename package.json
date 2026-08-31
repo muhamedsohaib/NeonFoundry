@@ -1,7 +1,7 @@
 {
-  "name": "satori-infographics",
+  "name": "neonfoundry",
   "version": "1.0.0",
-  "description": "",
+  "description": "Source-faithful infographic reconstruction with real text, deterministic SVG/PNG rendering, and semantic fidelity gates.",
   "main": "index.js",
   "scripts": {
     "test": "vitest run",
@@ -12,7 +12,13 @@
     "render": "tsx src/cli.ts render",
     "validate": "tsx src/cli.ts validate"
   },
-  "keywords": [],
+  "keywords": [
+    "infographic",
+    "satori",
+    "svg",
+    "openrouter",
+    "react"
+  ],
   "author": "",
   "license": "ISC",
   "type": "module",

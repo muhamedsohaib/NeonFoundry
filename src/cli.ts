@@ -1,4 +1,6 @@
-﻿import fs from 'node:fs/promises';
+﻿import 'dotenv/config';
+
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 

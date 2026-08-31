@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "comparison",
+    "layoutFamily": "auto",
+    "sourceMode": "image"
+  },
+  "hero": {
+    "eyebrow": "CASE STUDY | REMEDIATION IN ACTION",
+    "title": "BEFORE vs AFTER CATALOG REMEDIATION",
+    "highlight": "AFTER",
+    "subtitle": "PRECISE CHANGES. VERIFIABLE RESULTS.",
+    "tags": ["FIELD-LEVEL FIXES", "ACCURATE MAPPINGS", "VALIDATED OUTCOMES"],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "kind": "callout",
+      "title": "CATALOG REMEDIATION",
+      "body": "We fix catalog issues at the exact field level—ensuring accurate parent/child relationships, correct attributes, and a healthy, visible listing.",
+      "tone": "neon"
+    },
+    {
+      "id": "before-after",
+      "kind": "comparison",
+      "title": "BEFORE REMEDIATION vs AFTER REMEDIATION",
+      "columns": [
+        {
+          "label": "BEFORE REMEDIATION — SUPPRESSED",
+          "tone": "danger",
+          "items": [
+            "Variation not displaying on detail page",
+            "Incorrect size & color mapping",
+            "Missing / mismatched attributes",
+            "Child items not linked to parent",
+            "Contribution status: Issues detected",
+            "Low catalog health"
+          ]
+        },
+        {
+          "label": "AFTER REMEDIATION — ACTIVE",
+          "tone": "success",
+          "items": [
+            "Variation displaying on detail page",
+            "Correct size & color mapping",
+            "All required attributes completed",
+            "Child items properly linked to parent",
+            "Size mapping fixed",
+            "Catalog health restored"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exact-changes",
+      "kind": "table-lite",
+      "title": "EXACT FIELD-LEVEL CHANGES",
+      "columns": ["FIELD", "BEFORE", "AFTER", "CHANGE IMPACT"],
+      "rows": [
+        ["Variation Theme", "Headphones (Incorrect)", "Over Ear Headphones", "Theme aligned"],
+        ["Color", "Mixed / Invalid Values", "Black, White, Blue", "Mapping corrected"],
+        ["Size", "One Size (Incorrect)", "Standard, Large", "Size mapping fixed"],
+        ["Parent-Child Link", "Broken / Orphaned", "Linked to Parent", "Relationship restored"],
+        ["Contribution Status", "Blocked by Errors", "No issues", "Eligible for display"]
+      ]
+    },
+    {
+      "id": "process",
+      "kind": "process-steps",
+      "title": "PROCESS FLOW",
+      "steps": [
+        {"label": "DETECTED", "description": "Issues identified in catalog", "tone": "danger"},
+        {"label": "CORRECTED", "description": "Field-level remediation applied", "tone": "warning"},
+        {"label": "VALIDATED", "description": "Changes tested & confirmed", "tone": "neon"},
+        {"label": "LIVE", "description": "Healthy listing back in sync", "tone": "success"}
+      ]
+    },
+    {
+      "id": "health",
+      "kind": "metric-grid",
+      "title": "CATALOG HEALTH IMPROVEMENT",
+      "metrics": [
+        {"label": "ISSUES RESOLVED", "value": "5", "tone": "danger"},
+        {"label": "LISTINGS AFFECTED", "value": "12", "tone": "warning"},
+        {"label": "VARIATIONS RESTORED", "value": "100%", "tone": "success"},
+        {"label": "CATALOG HEALTH", "value": "INTEGRITY RESTORED", "tone": "success"}
+      ]
+    },
+    {
+      "id": "evidence",
+      "kind": "bullet-list",
+      "title": "EVIDENCE & VALIDATION",
+      "items": [
+        "CHANGE LOG — All changes logged with timestamps and user ID",
+        "QA CHECKS — Automated + manual QA checks passed successfully",
+        "SCREENSHOT PROOF — Before & after screenshots captured for evidence",
+        "IMPACT VERIFIED — Listing visibility and attributes verified live",
+        "QUALITY ASSURED — Preventive controls in place to avoid recurrence"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {"label": "DURATION", "value": "7-30 DAYS", "tone": "warning"},
+      {"label": "PROJECT SCOPE", "value": "CATALOG DIAGNOSTICS + REMEDIATION"},
+      {"label": "INDUSTRY", "value": "RETAIL & WHOLESALE"},
+      {"label": "FOCUS AREAS", "value": "ACCURACY • PERFORMANCE • GROWTH"}
+    ],
+    "disclaimer": "Independent Amazon marketplace services • Not affiliated with or endorsed by Amazon"
+  },
+  "sourceHints": {
+    "preferredColumns": 2,
+    "emphasisOrder": ["before-after", "exact-changes", "process", "health", "evidence"],
+    "sourceLayoutGuess": "comparison",
+    "compositionConfidence": 0.98,
+    "visualNotes": ["before/after case study", "left process and metrics", "right comparison and evidence"]
+  }
+}

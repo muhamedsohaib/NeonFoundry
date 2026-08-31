@@ -1,11 +1,25 @@
 import type { CanonicalInfographic, LayoutFamily } from '../schema/canonical.js';
 
+export type RenderLayout = 'qa' | 'dashboard' | 'comparison';
+
 export type LayoutDecision = {
   requested: LayoutFamily;
-  selected: 'qa' | 'dashboard';
+  selected: RenderLayout;
   reason: string;
-  fallbackFrom?: Exclude<LayoutFamily, 'auto' | 'qa' | 'dashboard'>;
+  fallbackFrom?: Exclude<LayoutFamily, 'auto' | 'qa' | 'dashboard' | 'comparison'>;
 };
+
+function isBeforeAfterComparison(data: CanonicalInfographic): boolean {
+  if (data.meta.intent === 'comparison' || data.sourceHints.sourceLayoutGuess === 'comparison') return true;
+  const comparisonSections = data.sections.filter((section) => section.kind === 'comparison');
+  if (comparisonSections.length === 0) return false;
+  const text = [
+    data.hero.title,
+    data.hero.subtitle ?? '',
+    ...comparisonSections.map((section) => `${section.title} ${section.columns.map((column) => column.label).join(' ')}`),
+  ].join(' ').toLowerCase();
+  return text.includes('before') && text.includes('after');
+}
 
 export function selectLayout(
   data: CanonicalInfographic,
@@ -13,7 +27,7 @@ export function selectLayout(
 ): LayoutDecision {
   const requestedLayout = requested ?? data.meta.layoutFamily;
 
-  if (requestedLayout === 'qa' || requestedLayout === 'dashboard') {
+  if (requestedLayout === 'qa' || requestedLayout === 'dashboard' || requestedLayout === 'comparison') {
     return {
       requested: requestedLayout,
       selected: requestedLayout,
@@ -27,6 +41,14 @@ export function selectLayout(
       selected: 'dashboard',
       reason: `The requested ${requestedLayout} layout is unsupported, so dashboard was selected.`,
       fallbackFrom: requestedLayout,
+    };
+  }
+
+  if (isBeforeAfterComparison(data)) {
+    return {
+      requested: requestedLayout,
+      selected: 'comparison',
+      reason: 'Auto-selected comparison to preserve before/after remediation structure.',
     };
   }
 
@@ -48,6 +70,6 @@ export function selectLayout(
   return {
     requested: requestedLayout,
     selected: 'dashboard',
-    reason: 'Auto-selected dashboard because the content is not checklist-oriented.',
+    reason: 'Auto-selected dashboard because the content is not checklist- or comparison-oriented.',
   };
 }

@@ -16,3 +16,22 @@ it('chooses a compact two-column profile for dense content', () => {
   expect(profile.density).toBe('compact');
   expect(profile.heroScale).toBeLessThan(1);
 });
+
+it('reduces the overall quality score when image semantics are incomplete', () => {
+  const doc = parseCanonicalInfographic({
+    meta: { version: 1, intent: 'comparison', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'BEFORE vs AFTER CATALOG REMEDIATION' },
+    sections: [{
+      id: 'comparison', kind: 'comparison', title: 'BEFORE vs AFTER',
+      columns: [
+        { label: 'Before', items: ['/before remediation column'] },
+        { label: 'After', items: ['/after remediation column'] },
+      ],
+    }],
+    footer: { facts: [] }, sourceHints: {},
+  });
+  const report = runQualityChecks(doc);
+  expect(report.score).toBeLessThan(100);
+  expect(report.semanticFidelity.passed).toBe(false);
+  expect(report.semanticFidelity.placeholderCount).toBeGreaterThan(0);
+});

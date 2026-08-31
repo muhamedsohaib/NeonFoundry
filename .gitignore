@@ -3,3 +3,8 @@ output/
 .env
 .worktrees/
 .superpowers/
+examples/
+*.log
+*.exit
+.verify-*
+.trace-extraction.ts

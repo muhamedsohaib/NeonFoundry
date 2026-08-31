@@ -1,4 +1,5 @@
 import type { CanonicalInfographic } from '../schema/canonical.js';
+import { assessSemanticFidelity, type SemanticFidelityReport } from './fidelity.js';
 
 export interface QualityWarning {
   code: 'hero-long' | 'section-dense' | 'footer-dense' | 'metric-label-long';
@@ -10,6 +11,7 @@ export interface QualityReport {
   warnings: QualityWarning[];
   score: number;
   densityPoints: number;
+  semanticFidelity: SemanticFidelityReport;
 }
 
 export interface RenderProfile {
@@ -68,11 +70,14 @@ export function runQualityChecks(data: CanonicalInfographic): QualityReport {
       message: `Footer contains ${data.footer.facts.length} facts; preferred maximum is 4.`,
     });
   }
+  const semanticFidelity = assessSemanticFidelity(data);
+  const layoutScore = Math.max(0, 100 - warnings.length * 8 - densityPoints * 3);
 
   return {
     warnings,
-    score: Math.max(0, 100 - warnings.length * 8 - densityPoints * 3),
+    score: Math.min(layoutScore, semanticFidelity.score),
     densityPoints,
+    semanticFidelity,
   };
 }
 
