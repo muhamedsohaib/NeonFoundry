@@ -1,0 +1,37 @@
+{
+  "meta": { "version": 1, "intent": "mixed", "layoutFamily": "dashboard", "sourceMode": "json" },
+  "hero": {
+    "eyebrow": "CASE STUDY / CATALOG DIAGNOSTICS",
+    "title": "ROOT-CAUSE INVESTIGATION",
+    "subtitle": "FINDING WHAT BREAKS YOUR CATALOG",
+    "tags": ["FIELD-LEVEL DIAGNOSIS", "RELATIONSHIP INTEGRITY"]
+  },
+  "sections": [
+    { "id": "problem", "kind": "callout", "title": "THE VISIBLE SYMPTOM", "body": "Variation not displaying correctly.", "tone": "danger" },
+    { "id": "investigation", "kind": "process-steps", "title": "INVESTIGATION FRAMEWORK", "steps": [
+      { "label": "DETECT", "tone": "danger" }, { "label": "ANALYZE", "tone": "warning" },
+      { "label": "ISOLATE", "tone": "warning" }, { "label": "CONFIRM", "tone": "neon" },
+      { "label": "RESOLVE", "tone": "success" }
+    ] },
+    { "id": "case-summary", "kind": "table-lite", "title": "EXAMPLE CASE SUMMARY", "columns": ["CATALOG ELEMENT", "FINDING"], "rows": [
+      ["Parent/Child Structure", "Broken relationship"], ["Variation Theme", "Incorrect theme applied"],
+      ["Child Attributes", "Size/Color not mapped"], ["Contribution Status", "Blocked by errors"],
+      ["Post-remediation QA", "All checks passed"]
+    ] },
+    { "id": "field-issues", "kind": "table-lite", "title": "FIELD-LEVEL ISSUE ANALYSIS", "columns": ["FIELD", "ISSUE", "IMPACT", "SEVERITY"], "rows": [
+      ["size_name", "Value mismatch with parent", "Variation suppressed", "High"],
+      ["color_name", "Incorrect mapping", "Child not displayed", "High"],
+      ["variation_theme", "Theme does not match", "Group not created", "Medium"],
+      ["product_type", "Invalid for category", "Data rejected", "Medium"],
+      ["update_delete", "Incorrect action value", "Update ignored", "Low"]
+    ] },
+    { "id": "coverage", "kind": "bullet-list", "title": "DIAGNOSTIC COVERAGE", "items": [
+      "Parent/Child Structure", "Attribute Mapping", "Variation Theme", "Contribution Logic", "Flat File Data", "Policy & Compliance"
+    ] },
+    { "id": "business-impacts", "kind": "bullet-list", "title": "BUSINESS IMPACTS", "items": [
+      "Lost Visibility", "Lost Sales", "Wasted Time", "Compliance Risk", "Poor Performance", "Brand Impact"
+    ] }
+  ],
+  "footer": { "facts": [], "disclaimer": "Illustrative case scenario • Independent Amazon marketplace services • Not affiliated with or endorsed by Amazon" },
+  "sourceHints": { "template": "root-cause-investigation", "emphasisOrder": ["field-issues", "investigation", "case-summary"] }
+}

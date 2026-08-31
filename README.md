@@ -70,6 +70,9 @@ npm.cmd run render    -- --input <canonical.json> --output <name> --debug
 npm.cmd run validate  -- --input <canonical.json> --layout auto --debug
 ```
 
+Layout precedence is explicit `--layout`, then canonical `meta.layoutFamily`, then
+automatic inference. Writing `--layout auto` explicitly requests inference.
+
 Canonical JSON rendering is completely local and does not require an API key.
 
 Generated artifacts are written to `output/`:
@@ -88,6 +91,21 @@ Dedicated renderers currently cover:
 - QA/checklist compositions
 - dashboard/report compositions
 - before/after comparison and remediation case studies
+
+Portfolio JSON can opt into a narrative composition with `sourceHints.template`:
+
+- `catalog-troubleshooting` — dominant diagnostic gauge, root-cause journey,
+  compact framework, and compact state comparison
+- `validation-qa` — assurance status, checklist, validation metrics, and controls
+- `root-cause-investigation` — diagnostic coverage, investigation flow, and issue table
+- `remediation-comparison` — balanced before/after states and exact field changes
+- `strategic-approach` — operating method, tools, timeline, and outcome anchors
+
+When template metadata is absent, recognizable portfolio narratives use the matching
+composition automatically. A template never overrides an incompatible CLI layout.
+Satori node geometry is checked before export; source text that does not fit causes an
+error instead of clipping beneath a card or footer. Debug JSON records template,
+canvas, and measured geometry without adding diagnostic labels to client artwork.
 
 Input formats include PNG, JPEG, WebP, TXT, Markdown, canonical JSON, and the bundled legacy JSON fixture.
 

@@ -35,7 +35,7 @@ function addModeOption(command: Command): Command {
 }
 
 function addLayoutOption(command: Command): Command {
-  return command.addOption(new Option('--layout <layout>', 'Layout selection').choices([...LAYOUTS]).default('auto'));
+  return command.addOption(new Option('--layout <layout>', 'Override canonical layout; auto explicitly infers from content').choices([...LAYOUTS]));
 }
 
 export function createProgram(deps: Partial<CliDependencies> = {}): Command {
@@ -57,7 +57,7 @@ export function createProgram(deps: Partial<CliDependencies> = {}): Command {
         inputPath: options.input,
         outputName: defaultOutputName(options.input, options.output),
         mode: options.mode as SourceMode | undefined,
-        layout: options.layout as LayoutFamily,
+        layout: options.layout as LayoutFamily | undefined,
         debug: Boolean(options.debug),
       });
       console.log(kleur.green('Generated infographic'));
@@ -92,7 +92,7 @@ export function createProgram(deps: Partial<CliDependencies> = {}): Command {
         inputPath: options.input,
         outputName: defaultOutputName(options.input, options.output),
         mode: 'json',
-        layout: options.layout as LayoutFamily,
+        layout: options.layout as LayoutFamily | undefined,
         debug: Boolean(options.debug),
       });
       console.log(kleur.green('Rendered infographic'));
@@ -108,7 +108,7 @@ export function createProgram(deps: Partial<CliDependencies> = {}): Command {
         options.input,
         options.mode as SourceMode | undefined,
       );
-      const decision = selectLayout(data, options.layout as LayoutFamily);
+      const decision = selectLayout(data, options.layout as LayoutFamily | undefined);
       const quality = runQualityChecks(data);
       const profile = deriveRenderProfile(quality);
       const report = { layoutDecision: decision, quality, renderProfile: profile };

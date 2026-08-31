@@ -4,6 +4,11 @@ const SourceModeSchema = z.enum(['image', 'report', 'json']);
 const LayoutFamilySchema = z.enum(['auto', 'qa', 'dashboard', 'process', 'comparison', 'timeline']);
 const LayoutIntentSchema = z.enum(['report', 'checklist', 'process', 'comparison', 'timeline', 'mixed']);
 const ToneSchema = z.enum(['neutral', 'neon', 'success', 'warning', 'danger']);
+export const PortfolioTemplateSchema = z.enum([
+  'catalog-troubleshooting', 'validation-qa', 'root-cause-investigation',
+  'remediation-comparison', 'strategic-approach',
+]);
+export type PortfolioTemplate = z.infer<typeof PortfolioTemplateSchema>;
 
 const MetricSchema = z.object({
   label: z.string().min(1),
@@ -133,6 +138,7 @@ export const CanonicalInfographicSchema = z.object({
     disclaimer: z.string().optional(),
   }).strict(),
   sourceHints: z.object({
+    template: PortfolioTemplateSchema.optional(),
     preferredColumns: z.union([z.literal(2), z.literal(3)]).optional(),
     emphasisOrder: z.array(z.string().min(1)).default([]),
     sourceLayoutGuess: LayoutFamilySchema.optional(),

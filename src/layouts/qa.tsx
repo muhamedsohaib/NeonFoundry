@@ -53,7 +53,7 @@ export function QaLayout({ data, profile, width = 1600, height = 1120 }: QaLayou
   return (
     <PosterShell width={width} height={height} padding={padding}>
       <div style={{ display: 'flex', flex: 1, minHeight: 0, gap: TOKENS.spacing.md }}>
-        <div style={{ display: 'flex', flexDirection: 'column', width: '51%', minWidth: 0, gap: TOKENS.spacing.md }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 51, minWidth: 0, gap: TOKENS.spacing.md }}>
           <GlassCard accent style={{ flex: 1, minHeight: 0, justifyContent: 'space-between', padding: '34px 36px', overflow: 'hidden' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: TOKENS.spacing.sm }}>
               <span style={{ alignSelf: 'flex-start', padding: '7px 12px', borderRadius: TOKENS.radius.pill, backgroundColor: TOKENS.colors.surfaceMuted, border: `1px solid ${TOKENS.colors.neonMuted}`, fontSize: 11, fontWeight: 700, color: TOKENS.colors.neon, letterSpacing: 1.3 }}>
@@ -70,10 +70,6 @@ export function QaLayout({ data, profile, width = 1600, height = 1120 }: QaLayou
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {data.hero.tags.map((tag, index) => <span key={`${tag}-${index}`} style={{ padding: '7px 10px', borderRadius: TOKENS.radius.sm, backgroundColor: TOKENS.colors.surfaceElevated, border: `1px solid ${TOKENS.colors.border}`, color: TOKENS.colors.text, fontSize: 10, fontWeight: 700 }}>{tag}</span>)}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: `1px solid ${TOKENS.colors.border}` }}>
-                <span style={{ fontSize: 10, color: TOKENS.colors.textMuted, letterSpacing: 1.2 }}>SEMANTIC RECONSTRUCTION</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: TOKENS.colors.neon }}>QA / {data.meta.sourceMode.toUpperCase()}</span>
-              </div>
             </div>
           </GlassCard>
 
@@ -84,7 +80,7 @@ export function QaLayout({ data, profile, width = 1600, height = 1120 }: QaLayou
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', width: '49%', minWidth: 0, gap: TOKENS.spacing.md }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 49, minWidth: 0, gap: TOKENS.spacing.md }}>
           {checklist ? (
             <GlassCard style={{ flex: 1.2, minHeight: 0, gap: 10, padding: '18px 20px', overflow: 'hidden' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: TOKENS.spacing.md }}>

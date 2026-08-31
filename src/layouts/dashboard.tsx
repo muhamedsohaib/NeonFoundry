@@ -57,10 +57,6 @@ export function DashboardLayout({ data, profile, width = 1600, height = 1120 }: 
           {data.hero.subtitle ? <span style={{ maxWidth: 900, fontSize: 15, lineHeight: 1.4, color: TOKENS.colors.textMuted }}>{data.hero.subtitle}</span> : null}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', width: 320, flexShrink: 0, justifyContent: 'space-between', alignItems: 'flex-end', gap: TOKENS.spacing.md }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 8, height: 8, borderRadius: TOKENS.radius.pill, backgroundColor: TOKENS.colors.neon }} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: TOKENS.colors.textMuted, letterSpacing: 1.4 }}>LIVE CANONICAL VIEW</span>
-          </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 8 }}>
             {data.hero.tags.map((tag, index) => (
               <span key={`${tag}-${index}`} style={{ padding: '7px 11px', fontSize: 10, fontWeight: 700, color: TOKENS.colors.neon, border: `1px solid ${TOKENS.colors.borderStrong}`, borderRadius: TOKENS.radius.pill, backgroundColor: TOKENS.colors.surfaceMuted }}>
@@ -68,7 +64,6 @@ export function DashboardLayout({ data, profile, width = 1600, height = 1120 }: 
               </span>
             ))}
           </div>
-          <span style={{ fontSize: 11, color: TOKENS.colors.textMuted }}>{data.meta.sourceMode.toUpperCase()} SOURCE • V{data.meta.version}</span>
         </div>
       </GlassCard>
 
@@ -76,7 +71,6 @@ export function DashboardLayout({ data, profile, width = 1600, height = 1120 }: 
         <GlassCard style={{ gap: TOKENS.spacing.md, padding: '22px 26px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: 1.4, color: TOKENS.colors.text }}>KEY PERFORMANCE SIGNALS</span>
-            <span style={{ fontSize: 10, color: TOKENS.colors.textMuted }}>{columns}-COLUMN REFLOW</span>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: TOKENS.spacing.sm }}>
             {metrics.map((metric, index) => (

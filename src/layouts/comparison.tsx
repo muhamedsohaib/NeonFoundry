@@ -28,7 +28,7 @@ function HeroBlock({ data, profile }: { data: CanonicalInfographic; profile: Ren
   return (
     <GlassCard accent style={{ gap: 14, padding: '24px 28px', minHeight: 238 }}>
       <span style={{ fontSize: 12, fontWeight: 700, color: TOKENS.colors.neon, letterSpacing: 1.8 }}>
-        {data.hero.eyebrow ?? 'CASE STUDY | SOURCE-PRESERVING RECONSTRUCTION'}
+        {data.hero.eyebrow ?? 'CASE STUDY'}
       </span>
       <span style={{ fontSize: Math.round(48 * profile.heroScale), fontWeight: 700, lineHeight: 1.05, letterSpacing: -1.4 }}>
         {data.hero.title}
@@ -69,14 +69,13 @@ export function ComparisonLayout({ data, profile, width = 1600, height = 1120 }:
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, gap: 12 }}>
-          {right.map((section, index) => (
+          {right.map((section) => (
             <SectionCard
               key={section.id}
               section={section}
               compact
               style={{
                 padding: '16px 18px',
-                ...(section.kind === 'comparison' && index === 0 ? { flex: 1.25 } : {}),
               }}
             />
           ))}

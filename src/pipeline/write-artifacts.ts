@@ -58,6 +58,9 @@ export async function writeArtifacts(options: WriteArtifactsOptions): Promise<Ar
       layoutDecision: options.decision,
       quality: options.quality,
       renderProfile: options.profile,
+      template: options.rendered.template,
+      canvas: { width: options.rendered.width, height: options.rendered.height },
+      geometry: options.rendered.geometry,
     };
     await fs.writeFile(paths.debug, `${JSON.stringify(debug, null, 2)}\n`, 'utf8');
   }

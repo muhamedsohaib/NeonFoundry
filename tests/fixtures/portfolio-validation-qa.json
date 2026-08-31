@@ -1,0 +1,35 @@
+{
+  "meta": { "version": 1, "intent": "checklist", "layoutFamily": "qa", "sourceMode": "json" },
+  "hero": { "eyebrow": "CASE STUDY / VALIDATION & QUALITY ASSURANCE", "title": "VALIDATE. VERIFY. DELIVER CONFIDENCE." },
+  "sections": [
+    { "id": "summary", "kind": "callout", "title": "CONFIDENCE THROUGH VALIDATION", "body": "Every remediation is validated through a multi-layer QA process to ensure accuracy, compliance, and lasting catalog integrity." },
+    { "id": "checklist", "kind": "checklist", "title": "QUALITY ASSURANCE CHECKLIST", "items": [
+      { "label": "Parent / Child Structure Validated", "status": "passed" },
+      { "label": "Variation Theme & Attributes Verified", "status": "passed" },
+      { "label": "Required Attributes Present", "status": "passed" },
+      { "label": "Attribute Values Validated", "status": "passed" },
+      { "label": "Contribution Status Verified", "status": "passed" },
+      { "label": "Data Consistency Checks", "status": "passed" },
+      { "label": "Policy & Compliance Review", "status": "passed" },
+      { "label": "QA Sign-off", "status": "passed" }
+    ] },
+    { "id": "metrics", "kind": "metric-grid", "title": "VALIDATION METRICS", "metrics": [
+      { "label": "ISSUES DETECTED", "value": "23", "tone": "danger" },
+      { "label": "ISSUES RESOLVED", "value": "23", "tone": "warning" },
+      { "label": "QA CHECKS PASSED", "value": "100%", "tone": "success" },
+      { "label": "CATALOG INTEGRITY RESTORED", "value": "100%", "tone": "success" }
+    ] },
+    { "id": "qa-flow", "kind": "process-steps", "title": "SIX-STEP QA FLOW", "steps": [
+      { "label": "QA Checks" }, { "label": "Data Validation" }, { "label": "Relationship Verification" },
+      { "label": "Change Traceability" }, { "label": "Policy & Compliance" }, { "label": "Continuous Improvement" }
+    ] },
+    { "id": "prevention", "kind": "bullet-list", "title": "ERROR PREVENTION", "items": [
+      "Standardized templates", "Pre-upload validation", "Attribute governance", "Review workflow", "Audits", "Root-cause learning"
+    ] },
+    { "id": "cycle", "kind": "diagram-cycle", "title": "CONTINUOUS IMPROVEMENT CYCLE", "nodes": [
+      { "label": "MONITOR" }, { "label": "DETECT" }, { "label": "PREVENT" }, { "label": "IMPROVE" }
+    ] }
+  ],
+  "footer": { "facts": [], "disclaimer": "Illustrative case scenario • Independent Amazon marketplace services • Not affiliated with or endorsed by Amazon" },
+  "sourceHints": { "template": "validation-qa", "emphasisOrder": ["checklist", "metrics", "qa-flow"] }
+}

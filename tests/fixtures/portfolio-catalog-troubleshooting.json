@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "mixed",
+    "layoutFamily": "dashboard",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "CASE STUDY",
+    "title": "AMAZON CATALOG TROUBLESHOOTING",
+    "highlight": "TROUBLESHOOTING",
+    "subtitle": "ROOT-CAUSE ANALYSIS • LISTING REMEDIATION • QA CONTROLS",
+    "tags": [
+      "CATALOG DIAGNOSTICS",
+      "FIELD-LEVEL REMEDIATION",
+      "VALIDATION & QA"
+    ],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "case-summary",
+      "kind": "callout",
+      "title": "STRUCTURED CATALOG REMEDIATION",
+      "body": "A structured approach to identifying catalog issues at the source, applying precise field-level remediation, validating the fix, and preventing recurrence.",
+      "tone": "neon"
+    },
+    {
+      "id": "diagnostic-overview",
+      "kind": "metric-grid",
+      "title": "CATALOG DIAGNOSTIC OVERVIEW",
+      "description": "Illustrative case scenario",
+      "metrics": [
+        {
+          "label": "ISSUES FOUND",
+          "value": "23",
+          "detail": "Catalog issues identified",
+          "tone": "danger"
+        },
+        {
+          "label": "LISTINGS AFFECTED",
+          "value": "112",
+          "detail": "Listings included in the diagnostic scope",
+          "tone": "warning"
+        },
+        {
+          "label": "PARENTS",
+          "value": "18",
+          "detail": "Parent structures reviewed",
+          "tone": "neutral"
+        },
+        {
+          "label": "CHILDREN",
+          "value": "94",
+          "detail": "Child listings reviewed",
+          "tone": "neutral"
+        },
+        {
+          "label": "DIAGNOSTIC COVERAGE",
+          "value": "87%",
+          "detail": "Key catalog checks completed",
+          "tone": "neon"
+        }
+      ]
+    },
+    {
+      "id": "root-cause-analysis",
+      "kind": "process-steps",
+      "title": "ROOT CAUSE ANALYSIS",
+      "description": "Trace the visible symptom back to the catalog defect, correct it, then validate the result.",
+      "steps": [
+        {
+          "label": "SYMPTOM",
+          "description": "Variation not displaying correctly",
+          "tone": "danger"
+        },
+        {
+          "label": "INVESTIGATE",
+          "description": "Attribute mismatch identified in child items",
+          "tone": "neon"
+        },
+        {
+          "label": "ROOT CAUSE",
+          "description": "Incorrect size and color mapping",
+          "tone": "danger"
+        },
+        {
+          "label": "RESOLVE",
+          "description": "Correct attributes and apply the required flat-file update",
+          "tone": "warning"
+        },
+        {
+          "label": "VALIDATE",
+          "description": "Confirm that the variation displays correctly",
+          "tone": "success"
+        }
+      ]
+    },
+    {
+      "id": "remediation-framework",
+      "kind": "process-steps",
+      "title": "END-TO-END REMEDIATION FRAMEWORK",
+      "description": "Six controlled stages from diagnosis to recurrence prevention.",
+      "steps": [
+        {
+          "label": "1. DIAGNOSIS",
+          "description": "Detailed issue identification.",
+          "tone": "neon"
+        },
+        {
+          "label": "2. ROOT-CAUSE ANALYSIS",
+          "description": "Isolate the true cause.",
+          "tone": "neon"
+        },
+        {
+          "label": "3. FIELD-LEVEL REMEDIATION",
+          "description": "Apply precise, safe corrections.",
+          "tone": "warning"
+        },
+        {
+          "label": "4. VALIDATION & QA",
+          "description": "Ensure accuracy before closure.",
+          "tone": "success"
+        },
+        {
+          "label": "5. TRACEABILITY",
+          "description": "Document every material change.",
+          "tone": "neon"
+        },
+        {
+          "label": "6. RECURRENCE PREVENTION",
+          "description": "Introduce controls to avoid repeat issues.",
+          "tone": "success"
+        }
+      ]
+    },
+    {
+      "id": "before-after",
+      "kind": "comparison",
+      "title": "BEFORE vs AFTER REMEDIATION",
+      "description": "Clear catalog-state improvement after corrective action.",
+      "columns": [
+        {
+          "label": "BEFORE",
+          "tone": "danger",
+          "items": [
+            "Variation not showing",
+            "Incorrect attributes",
+            "Suppressed ASIN",
+            "Low catalog health"
+          ]
+        },
+        {
+          "label": "AFTER",
+          "tone": "success",
+          "items": [
+            "Variation displaying",
+            "Attributes corrected",
+            "ASIN active",
+            "Catalog health improved"
+          ]
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "DURATION",
+        "value": "7–30 DAYS",
+        "tone": "neutral"
+      },
+      {
+        "label": "PROJECT SCOPE",
+        "value": "CATALOG DIAGNOSTICS + REMEDIATION",
+        "tone": "neon"
+      },
+      {
+        "label": "INDUSTRY",
+        "value": "RETAIL & WHOLESALE",
+        "tone": "neutral"
+      },
+      {
+        "label": "FOCUS",
+        "value": "ACCURACY • PERFORMANCE • GROWTH",
+        "tone": "neon"
+      }
+    ],
+    "disclaimer": "Independent Amazon marketplace services • Not affiliated with or endorsed by Amazon"
+  },
+  "sourceHints": {
+    "preferredColumns": 2,
+    "emphasisOrder": [
+      "diagnostic-overview",
+      "root-cause-analysis",
+      "before-after",
+      "remediation-framework"
+    ],
+    "sourceLayoutGuess": "dashboard",
+    "compositionConfidence": 0.98,
+    "visualNotes": [
+      "Prioritize the 87% diagnostic coverage as the dominant metric.",
+      "Keep the diagnostic overview compact and visually distinct.",
+      "Render root-cause analysis as a strong horizontal progression.",
+      "Give BEFORE and AFTER equal visual weight, using red and neon green only for status contrast.",
+      "Keep the six-stage remediation framework secondary to the diagnostic and before-after story.",
+      "Use generous negative space and avoid equal-sized boxes everywhere.",
+      "Prefer asymmetric composition over a rigid card grid.",
+      "Use thin borders, restrained glow, and larger typography instead of excessive ornament."
+    ]
+  }
+}

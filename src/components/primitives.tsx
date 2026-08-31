@@ -61,13 +61,15 @@ export function GlassCard({
   children,
   style,
   accent = false,
+  region,
 }: {
   children: ReactNode;
   style?: CSSProperties;
   accent?: boolean;
+  region?: string;
 }) {
   return (
-    <div style={{
+    <div data-region={region} style={{
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
@@ -227,7 +229,7 @@ export function FooterFacts({
   compact?: boolean;
 }) {
   return (
-    <GlassCard style={{ padding: compact ? '13px 20px' : '16px 24px', gap: compact ? 8 : 12, flexShrink: 0 }}>
+    <GlassCard region="footer" style={{ padding: compact ? '13px 20px' : '16px 24px', gap: compact ? 8 : 12, flexShrink: 0 }}>
       <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', gap: TOKENS.spacing.md }}>
         {facts.map((fact, index) => (
           <div key={`${fact.label}-${index}`} style={{

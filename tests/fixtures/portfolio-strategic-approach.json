@@ -1,0 +1,29 @@
+{
+  "meta": { "version": 1, "intent": "process", "layoutFamily": "dashboard", "sourceMode": "json" },
+  "hero": { "eyebrow": "MARKETPLACE OPERATIONS / METHODOLOGY", "title": "STRATEGIC APPROACH. PROVEN PROCESS." },
+  "sections": [
+    { "id": "method", "kind": "process-steps", "title": "FIVE-STAGE METHOD", "steps": [
+      { "label": "DISCOVER", "tone": "neon" }, { "label": "DIAGNOSE", "tone": "warning" },
+      { "label": "REMEDIATE", "tone": "warning" }, { "label": "VALIDATE", "tone": "success" },
+      { "label": "IMPROVE", "tone": "success" }
+    ] },
+    { "id": "tools-data", "kind": "bullet-list", "title": "TOOLS & DATA", "items": [
+      "Catalog Reports", "Brand Analytics", "Search Term Data", "Competitor Insights", "Policy & Guidelines", "QA & Validation Tools"
+    ] },
+    { "id": "methodology", "kind": "bullet-list", "title": "METHODOLOGY", "items": [
+      "Data-driven root-cause analysis", "Field-level remediation", "Parent-child verification", "Attribute mapping",
+      "Policy compliance", "Multi-stage QA", "Traceability", "Continuous monitoring"
+    ] },
+    { "id": "why-it-works", "kind": "bullet-list", "title": "WHY IT WORKS", "items": ["Focused", "Reliable", "Impactful", "Sustainable"] },
+    { "id": "outcomes", "kind": "bullet-list", "title": "OUTCOMES", "items": ["Accuracy", "Integrity", "Performance", "Growth"] },
+    { "id": "timeline", "kind": "timeline", "title": "DELIVERY TIMELINE", "events": [
+      { "date": "Day 1–3", "label": "Discovery & Diagnosis" },
+      { "date": "Day 4–10", "label": "Field-Level Remediation" },
+      { "date": "Day 11–15", "label": "QA & Validation" },
+      { "date": "Day 16–20", "label": "Catalog Health Restored" },
+      { "date": "Day 21–30", "label": "Performance Improvement" }
+    ] }
+  ],
+  "footer": { "facts": [], "disclaimer": "Illustrative process • Independent Amazon marketplace services • Not affiliated with or endorsed by Amazon" },
+  "sourceHints": { "template": "strategic-approach", "emphasisOrder": ["method", "timeline", "methodology"] }
+}

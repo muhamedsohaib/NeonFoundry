@@ -47,8 +47,9 @@ export async function runGenerate(options: GenerateOptions): Promise<GenerateRes
     rendered = await renderInfographic(data, decision, profile);
   } catch (error) {
     const diagnostics = intendedPaths.debug ? `; debug: ${intendedPaths.debug}` : '';
+    const detail = error instanceof Error ? ` ${error.message}` : '';
     throw new Error(
-      `Infographic rendering failed after canonical resolution. Intended JSON: ${intendedPaths.json}${diagnostics}`,
+      `Infographic rendering failed after canonical resolution. Intended JSON: ${intendedPaths.json}${diagnostics}.${detail}`,
       { cause: error },
     );
   }
