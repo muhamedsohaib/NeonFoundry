@@ -23,8 +23,8 @@ export interface SemanticFidelityReport {
 
 const PLACEHOLDER_PATTERNS = [
   /^\s*\//,
-  /(?:^|[_\s-])(block|column|grid|flow|table)(?:$|[_\s-])/i,
-  /^(before_after|process_steps|catalog_health|evidence_and_validation|exact_field_level)/i,
+  /^(?:before(?:\s+remediation)?|after(?:\s+remediation)?|metrics?|process(?:\s+steps?)?|catalog\s+health(?:\s+improvement)?|evidence(?:\s*&\s*validation)?|exact\s+field(?:-level)?\s+changes?)\s+(?:block|column|grid|flow|table)$/i,
+  /^(?:before_after|process_steps|catalog_health|evidence_and_validation|exact_field_level)(?:[_-](?:block|column|grid|flow|table))?$/i,
 ];
 
 function isPlaceholder(value: string): boolean {

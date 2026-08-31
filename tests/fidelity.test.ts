@@ -123,3 +123,19 @@ it('accepts a complete simple image without an arbitrary minimum fact count', ()
   expect(fidelity.passed).toBe(true);
   expect(fidelity.concreteFacts).toBe(3);
 });
+
+it('does not treat concrete source text containing flow or table as placeholder content', () => {
+  const doc = parseCanonicalInfographic({
+    meta: { version: 1, intent: 'report', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'SYSTEM STATUS' },
+    sections: [{
+      id: 'status', kind: 'bullet-list', title: 'STATUS',
+      items: ['Data flow restored', 'Table sync completed'],
+    }],
+    footer: { facts: [] }, sourceHints: {},
+  });
+  const fidelity = assessSemanticFidelity(doc);
+  expect(fidelity.passed).toBe(true);
+  expect(fidelity.placeholderCount).toBe(0);
+  expect(fidelity.concreteFacts).toBe(2);
+});

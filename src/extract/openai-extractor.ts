@@ -167,16 +167,18 @@ function mergeCandidateDocuments(
 ): CanonicalInfographic {
   if (!current) return next;
 
-  const byRole = new Map<string, CanonicalSection>();
+  const byIdentity = new Map<string, CanonicalSection>();
   for (const section of [...current.sections, ...next.sections]) {
     const role = sectionRole(section);
-    const existing = byRole.get(role);
-    if (!existing) { byRole.set(role, section); continue; }
+    const titleIdentity = section.title.trim().toLowerCase().replace(/[\s_-]+/g, ' ');
+    const identity = `${role}:${titleIdentity}`;
+    const existing = byIdentity.get(identity);
+    if (!existing) { byIdentity.set(identity, section); continue; }
     const candidateCanonical = isCanonicalForRole(section, role);
     const existingCanonical = isCanonicalForRole(existing, role);
     if ((candidateCanonical && !existingCanonical)
       || (candidateCanonical === existingCanonical && sectionScore(section) > sectionScore(existing))) {
-      byRole.set(role, section);
+      byIdentity.set(identity, section);
     }
   }
 
@@ -201,7 +203,7 @@ function mergeCandidateDocuments(
       tags: uniqueStrings([...current.hero.tags, ...next.hero.tags]),
       metrics: heroMetrics,
     },
-    sections: [...byRole.values()],
+    sections: [...byIdentity.values()],
     footer: {
       facts: [...footerByLabel.values()],
       disclaimer: current.footer.disclaimer ?? next.footer.disclaimer,

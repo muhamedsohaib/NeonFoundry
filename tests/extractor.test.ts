@@ -262,3 +262,38 @@ it('keeps validation evidence separate from result metrics across retries', asyn
   expect(doc.sections.some((section) => section.kind === 'metric-grid' && section.title === 'VALIDATION RESULTS')).toBe(true);
   expect(doc.sections.some((section) => section.kind === 'bullet-list' && /VALIDATION/i.test(section.title))).toBe(true);
 });
+
+it('preserves distinct metric panels that share the same semantic role across retries', async () => {
+  const base = {
+    meta: { version: 1, intent: 'comparison', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'BEFORE vs AFTER' }, footer: { facts: [] },
+    sourceHints: { emphasisOrder: ['evidence validation'] },
+  };
+  const first = { ...base, sections: [
+    { id: 'compare', kind: 'comparison', title: 'BEFORE vs AFTER', columns: [
+      { label: 'BEFORE', items: ['Suppressed', 'Broken links'] },
+      { label: 'AFTER', items: ['Active', 'Links restored'] },
+    ] },
+    { id: 'health', kind: 'metric-grid', title: 'CATALOG HEALTH IMPROVEMENT', metrics: [
+      { label: 'Issues resolved', value: '5' }, { label: 'Restored', value: '100%' },
+    ] },
+  ] };
+  const second = { ...base, sections: [...first.sections, {
+    id: 'validation-metrics', kind: 'metric-grid', title: 'VALIDATION RESULTS', metrics: [
+      { label: 'Checks passed', value: '12' }, { label: 'Screenshots', value: '5' },
+    ],
+  }, {
+    id: 'evidence', kind: 'bullet-list', title: 'EVIDENCE & VALIDATION', items: [
+      'CHANGE LOG — timestamps recorded', 'QA CHECKS — manual QA passed',
+    ],
+  }] };
+  const responses = [first, second]; let calls = 0;
+  const parse = async () => ({ status: 'completed', output_parsed: responses[calls++] });
+  const doc = await extractWithOpenAI(
+    { mode: 'image', path: 'x.png', png: Buffer.from('x'), dataUrl: 'data:image/png;base64,AA==' },
+    { apiKey: 'test', parse },
+  );
+  expect(calls).toBe(2);
+  expect(doc.sections.filter((section) => section.kind === 'metric-grid').map((section) => section.title))
+    .toEqual(expect.arrayContaining(['CATALOG HEALTH IMPROVEMENT', 'VALIDATION RESULTS']));
+});
