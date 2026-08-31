@@ -139,3 +139,17 @@ it('does not treat concrete source text containing flow or table as placeholder 
   expect(fidelity.placeholderCount).toBe(0);
   expect(fidelity.concreteFacts).toBe(2);
 });
+
+it('rejects sectionless image extraction even when the hero is populated', () => {
+  const doc = parseCanonicalInfographic({
+    meta: { version: 1, intent: 'report', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'SOURCE INFOGRAPHIC', subtitle: 'A polished headline' },
+    sections: [],
+    footer: { facts: [{ label: 'Duration', value: '7 days' }] },
+    sourceHints: {},
+  });
+  const fidelity = assessSemanticFidelity(doc);
+  expect(fidelity.passed).toBe(false);
+  expect(fidelity.concreteFacts).toBe(0);
+  expect(fidelity.issues.some((issue) => issue.code === 'semantic-thin')).toBe(true);
+});

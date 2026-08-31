@@ -125,7 +125,7 @@ export function assessSemanticFidelity(data: CanonicalInfographic): SemanticFide
     });
   }
 
-  if (data.sections.length > 0 && concreteFacts === 0) {
+  if (concreteFacts === 0) {
     issues.push({
       code: 'semantic-thin',
       message: 'No concrete section facts were extracted from the source image.',

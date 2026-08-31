@@ -297,3 +297,39 @@ it('preserves distinct metric panels that share the same semantic role across re
   expect(doc.sections.filter((section) => section.kind === 'metric-grid').map((section) => section.title))
     .toEqual(expect.arrayContaining(['CATALOG HEALTH IMPROVEMENT', 'VALIDATION RESULTS']));
 });
+
+it('deduplicates focused rescue against an existing same-role section with different title wording', async () => {
+  const incomplete = {
+    meta: { version: 1, intent: 'comparison', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'BEFORE vs AFTER' },
+    sections: [{
+      id: 'compare', kind: 'comparison', title: 'BEFORE vs AFTER', columns: [
+        { label: 'BEFORE', items: ['Suppressed', 'Broken links'] },
+        { label: 'AFTER', items: ['Active', 'Links restored'] },
+      ],
+    }],
+    footer: { facts: [] },
+    sourceHints: { emphasisOrder: ['exact field changes', 'process flow', 'catalog health', 'evidence validation'] },
+  };
+  const rescue = {
+    hero: { eyebrow: null, title: 'BEFORE vs AFTER', subtitle: null, summary: null, tags: [] },
+    beforeAfter: { before: ['Suppressed', 'Broken links'], after: ['Active', 'Links restored'] },
+    fieldChanges: [
+      { field: 'Color', before: 'Invalid', after: 'Black', impact: 'Corrected' },
+      { field: 'Size', before: 'One Size', after: 'Large', impact: 'Fixed' },
+    ],
+    process: [{ label: 'DETECTED', description: null }, { label: 'CORRECTED', description: null },
+      { label: 'VALIDATED', description: null }, { label: 'LIVE', description: null }],
+    metrics: [{ label: 'Issues resolved', value: '5' }, { label: 'Restored', value: '100%' }],
+    evidence: ['CHANGE LOG — timestamps recorded', 'QA CHECKS — manual QA passed'],
+    footerFacts: [], disclaimer: null,
+  };
+  const responses = [incomplete, incomplete, incomplete, rescue]; let calls = 0;
+  const parse = async () => ({ status: 'completed', output_parsed: responses[calls++] });
+  const doc = await extractWithOpenAI(
+    { mode: 'image', path: 'x.png', png: Buffer.from('x'), dataUrl: 'data:image/png;base64,AA==' },
+    { apiKey: 'test', parse },
+  );
+  expect(calls).toBe(4);
+  expect(doc.sections.filter((section) => section.kind === 'comparison')).toHaveLength(1);
+});

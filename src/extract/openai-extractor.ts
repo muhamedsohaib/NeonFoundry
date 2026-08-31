@@ -171,7 +171,13 @@ function mergeCandidateDocuments(
   for (const section of [...current.sections, ...next.sections]) {
     const role = sectionRole(section);
     const titleIdentity = section.title.trim().toLowerCase().replace(/[\s_-]+/g, ' ');
-    const identity = `${role}:${titleIdentity}`;
+    let identity = `${role}:${titleIdentity}`;
+    if (section.id.startsWith('rescue-')) {
+      const sameRoleEntries = [...byIdentity.entries()]
+        .filter(([, existingSection]) => sectionRole(existingSection) === role);
+      const onlyRoleEntry = sameRoleEntries.length === 1 ? sameRoleEntries[0] : undefined;
+      if (onlyRoleEntry) identity = onlyRoleEntry[0];
+    }
     const existing = byIdentity.get(identity);
     if (!existing) { byIdentity.set(identity, section); continue; }
     const candidateCanonical = isCanonicalForRole(section, role);
