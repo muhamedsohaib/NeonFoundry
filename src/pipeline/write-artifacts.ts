@@ -59,6 +59,8 @@ export async function writeArtifacts(options: WriteArtifactsOptions): Promise<Ar
       quality: options.quality,
       renderProfile: options.profile,
       template: options.rendered.template,
+      blueprint: options.rendered.blueprint,
+      compositionFidelity: options.rendered.compositionFidelity,
       canvas: { width: options.rendered.width, height: options.rendered.height },
       geometry: options.rendered.geometry,
     };

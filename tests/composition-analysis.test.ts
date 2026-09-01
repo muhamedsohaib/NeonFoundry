@@ -155,3 +155,20 @@ it('reports every named structural fidelity failure with documented penalties', 
     'lost-dominant-emphasis', 'process-direction', 'source-columns', 'footer-order',
   ]));
 });
+
+it('treats explicit zone geometry as authoritative over weaker preferredColumns hints', () => {
+  const data = document([bullets('left'), bullets('right')], {
+    preferredColumns: 3,
+    zoneMap: [
+      { sectionId: 'left', x: 0, y: 0, w: 0.48, h: 0.4 },
+      { sectionId: 'right', x: 0.52, y: 0, w: 0.48, h: 0.4 },
+    ],
+  });
+  const blueprint = analyzeComposition(data);
+  const report = assessCompositionFidelity(data, blueprint);
+
+  expect(blueprint.columns).toBe(2);
+  expect(report.issues).not.toEqual(expect.arrayContaining([
+    expect.objectContaining({ code: 'source-columns' }),
+  ]));
+});

@@ -40,9 +40,10 @@ function expectedDominant(data: CanonicalInfographic): string | undefined {
 
 function sourceColumns(data: CanonicalInfographic): number {
   if (data.sourceHints.columnRatios?.length) return data.sourceHints.columnRatios.length;
-  if (data.sourceHints.preferredColumns) return data.sourceHints.preferredColumns;
   const zones = (data.sourceHints.zoneMap ?? []).filter((zone) => zone.sectionId !== 'hero' && zone.sectionId !== 'footer');
-  return Math.max(1, ...zones.map((zone) => zones.filter((other) => zone.y < other.y + other.h && other.y < zone.y + zone.h).length));
+  if (zones.length) return Math.max(1, ...zones.map((zone) => zones.filter((other) => zone.y < other.y + other.h && other.y < zone.y + zone.h).length));
+  if (data.sourceHints.preferredColumns) return data.sourceHints.preferredColumns;
+  return 1;
 }
 
 function orderWithGroups(ids: string[], data: CanonicalInfographic): string[] {

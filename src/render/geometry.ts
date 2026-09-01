@@ -57,7 +57,9 @@ export function layoutOverflows(nodes: GeometryNode[], width: number, height: nu
     if (node.left < -tolerance || node.top < -tolerance || right > width + tolerance || bottom > height + tolerance) {
       issues.push(`Canvas overflow: ${label} (${Math.round(right)} × ${Math.round(bottom)}).`);
     }
-    if (parent && (node.left < parent.left - tolerance || node.top < parent.top - tolerance
+    if (parent && node.width > tolerance && node.height > tolerance
+      && parent.width > tolerance && parent.height > tolerance
+      && (node.left < parent.left - tolerance || node.top < parent.top - tolerance
       || right > parent.left + parent.width + tolerance || bottom > parent.top + parent.height + tolerance)) {
       issues.push(`Content does not fit its container: ${label} [${Math.round(node.left)},${Math.round(node.top)},${Math.round(node.width)},${Math.round(node.height)}] in parent [${Math.round(parent.left)},${Math.round(parent.top)},${Math.round(parent.width)},${Math.round(parent.height)}].`);
     }

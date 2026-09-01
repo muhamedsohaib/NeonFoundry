@@ -1,9 +1,10 @@
 import { Resvg } from '@resvg/resvg-js';
 import satori from 'satori';
 
-import { ComparisonLayout } from '../layouts/comparison.js';
-import { DashboardLayout } from '../layouts/dashboard.js';
-import { QaLayout } from '../layouts/qa.js';
+import { analyzeComposition } from '../composition/analyze.js';
+import { assessCompositionFidelity } from '../composition/fidelity.js';
+import type { CompositionBlueprint, CompositionFidelityReport, CompositionMeasuredRegion } from '../composition/types.js';
+import { GeneralizedLayout } from '../layouts/generalized.js';
 import { PortfolioLayout } from '../layouts/portfolio.js';
 import { selectTemplate } from '../layout/select-template.js';
 import type { LayoutDecision, RenderLayout } from '../layout/select-layout.js';
@@ -19,7 +20,17 @@ export interface RenderedInfographic {
   width: number;
   height: number;
   template?: PortfolioTemplate;
+  blueprint?: CompositionBlueprint;
+  compositionFidelity?: CompositionFidelityReport;
   geometry: GeometryNode[];
+}
+function measuredRegions(nodes: GeometryNode[]): CompositionMeasuredRegion[] {
+  const seen = new Set<string>();
+  return nodes.flatMap((node) => {
+    if (!node.region || seen.has(node.region)) return [];
+    seen.add(node.region);
+    return [{ id: node.region, x: node.left, y: node.top, width: node.width, height: node.height }];
+  });
 }
 
 export async function renderInfographic(
@@ -32,25 +43,29 @@ export async function renderInfographic(
   let height = options.height ?? 1120;
   const pngWidth = options.pngWidth ?? 3200;
   const fonts = await loadRobotoMonoFonts();
-
   const template = selectTemplate(data, decision);
-  const build = () => template ? PortfolioLayout({ data, template, width, height }) : decision.selected === 'qa'
-    ? QaLayout({ data, profile, width, height })
-    : decision.selected === 'comparison'
-      ? ComparisonLayout({ data, profile, width, height })
-      : DashboardLayout({ data, profile, width, height });
+  const blueprint = template ? undefined : analyzeComposition(data);
 
+  const build = () => template
+    ? PortfolioLayout({ data, template, width, height })
+    : GeneralizedLayout({ data, blueprint: blueprint!, width, height });
   let measured = instrument(build());
   let svg = await satori(measured.element, { width, height, fonts, onNodeDetected: measured.onNodeDetected });
-  // Keep source text readable on default canvases. A fixed height is a hard limit.
-  const neededHeight = Math.ceil(Math.max(height, ...measured.nodes.map((n) => n.top + n.height)));
+  const neededHeight = Math.ceil(Math.max(height, ...measured.nodes.map((node) => node.top + node.height)));
   if (options.height === undefined && neededHeight > height) {
     height = neededHeight;
     measured = instrument(build());
     svg = await satori(measured.element, { width, height, fonts, onNodeDetected: measured.onNodeDetected });
   }
+
   const overflow = layoutOverflows(measured.nodes, width, height);
-  if (overflow.length) throw new Error(`Layout overflow; increase canvas size or recompose source sections. ${overflow.slice(0, 5).join(' ')}`);
+  if (overflow.length) {
+    throw new Error(`Layout overflow; increase canvas size or recompose source sections. ${overflow.slice(0, 5).join(' ')}`);
+  }
+
+  const compositionFidelity = blueprint
+    ? assessCompositionFidelity(data, blueprint, measuredRegions(measured.nodes))
+    : undefined;
   const png = Buffer.from(new Resvg(svg, {
     fitTo: { mode: 'width', value: pngWidth },
   }).render().asPng());
@@ -62,6 +77,8 @@ export async function renderInfographic(
     width,
     height,
     template,
+    blueprint,
+    compositionFidelity,
     geometry: measured.nodes,
   };
 }
