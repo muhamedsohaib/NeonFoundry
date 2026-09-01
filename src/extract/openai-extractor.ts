@@ -30,9 +30,12 @@ to improve spacing and geometry. Use the most specific canonical section kind av
 Keep visually distinct source sections distinct in the JSON. Never merge BEFORE and AFTER into one column,
 never duplicate identical comparison columns, and never collapse a metric block together with evidence.
 When the source contains FIELD / BEFORE / AFTER / CHANGE IMPACT rows, use table-lite and preserve every legible row.
-When it contains a DETECTED ? CORRECTED ? VALIDATED ? LIVE sequence (or equivalent), use process-steps.
-Use metric-grid for KPI/result blocks and bullet-list for evidence/validation claims.
-Never return descriptions of blocks such as "/before remediation column", "metrics grid", "process flow",
+  When it contains a DETECTED ? CORRECTED ? VALIDATED ? LIVE sequence (or equivalent), use process-steps.
+  Use metric-grid for KPI/result blocks and bullet-list for evidence/validation claims.
+  For image sources, also recover only confident coarse composition hints: major zones, columns, grouping,
+  directional flow, section order, dominant regions, and relative emphasis. Prioritize semantic accuracy over
+  uncertain coordinates; omit a hint rather than inventing geometry.
+  Never return descriptions of blocks such as "/before remediation column", "metrics grid", "process flow",
 or "evidence block". Return the actual visible contents of those blocks instead.
 Use layoutFamily "auto". When uncertain about unreadable text, omit only that text rather than replacing
 a whole section with a placeholder.`;
@@ -51,7 +54,7 @@ function buildMessages(input: ExtractableInput, report?: SemanticFidelityReport)
         content: [
           {
             type: 'text',
-            text: 'Analyze this infographic and recover its complete concrete message, not merely its section names or visual structure.' + retryInstruction(report),
+            text: 'Analyze this infographic and recover its complete concrete message, not merely its section names or visual structure. Also capture confident coarse major zones, columns, grouping, directional flow, section order, dominant regions, and relative emphasis without sacrificing semantic accuracy.' + retryInstruction(report),
           },
           { type: 'image_url', image_url: { url: input.dataUrl } },
         ],
@@ -161,6 +164,18 @@ function uniqueStrings(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
 
+type SourceHints = CanonicalInfographic['sourceHints'];
+const structuralHintKeys = ['compositionPattern', 'primaryAxis', 'columnRatios', 'sectionGroups', 'sectionOrder', 'zoneMap', 'relativeImportance'] as const;
+
+function structurallyCompatible(current: SourceHints, next: SourceHints): boolean {
+  return structuralHintKeys.every((key) => current[key] === undefined || next[key] === undefined
+    || JSON.stringify(current[key]) === JSON.stringify(next[key]));
+}
+
+function higherConfidenceHints(current: SourceHints, next: SourceHints): SourceHints {
+  return (next.compositionConfidence ?? 0) > (current.compositionConfidence ?? 0) ? next : current;
+}
+
 function mergeCandidateDocuments(
   current: CanonicalInfographic | undefined,
   next: CanonicalInfographic,
@@ -197,6 +212,8 @@ function mergeCandidateDocuments(
 
   const heroMetrics = [...current.hero.metrics, ...next.hero.metrics].filter((metric, index, all) =>
     all.findIndex((candidate) => candidate.label === metric.label && candidate.value === metric.value) === index);
+  const preferredHints = higherConfidenceHints(current.sourceHints, next.sourceHints);
+  const compatibleHints = structurallyCompatible(current.sourceHints, next.sourceHints);
 
   return parseCanonicalInfographic({
     ...current,
@@ -215,11 +232,15 @@ function mergeCandidateDocuments(
       disclaimer: current.footer.disclaimer ?? next.footer.disclaimer,
     },
     sourceHints: {
-      preferredColumns: current.sourceHints.preferredColumns ?? next.sourceHints.preferredColumns,
-      emphasisOrder: uniqueStrings([...current.sourceHints.emphasisOrder, ...next.sourceHints.emphasisOrder]),
-      sourceLayoutGuess: current.sourceHints.sourceLayoutGuess ?? next.sourceHints.sourceLayoutGuess,
+      ...preferredHints,
+      template: current.sourceHints.template ?? next.sourceHints.template,
       compositionConfidence: Math.max(current.sourceHints.compositionConfidence ?? 0, next.sourceHints.compositionConfidence ?? 0),
-      visualNotes: uniqueStrings([...current.sourceHints.visualNotes, ...next.sourceHints.visualNotes]),
+      emphasisOrder: compatibleHints
+        ? uniqueStrings([...current.sourceHints.emphasisOrder, ...next.sourceHints.emphasisOrder])
+        : preferredHints.emphasisOrder,
+      visualNotes: compatibleHints
+        ? uniqueStrings([...current.sourceHints.visualNotes, ...next.sourceHints.visualNotes])
+        : preferredHints.visualNotes,
     },
   });
 }

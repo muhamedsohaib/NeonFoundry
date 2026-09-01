@@ -4,6 +4,12 @@ const SourceModeSchema = z.enum(['image', 'report', 'json']);
 const LayoutFamilySchema = z.enum(['auto', 'qa', 'dashboard', 'process', 'comparison', 'timeline']);
 const LayoutIntentSchema = z.enum(['report', 'checklist', 'process', 'comparison', 'timeline', 'mixed']);
 const ToneSchema = z.enum(['neutral', 'neon', 'success', 'warning', 'danger']);
+const CompositionPatternSchema = z.enum([
+  'single-column', 'asymmetric-two-column', 'symmetric-two-column', 'hero-left-data-right',
+  'hero-top-content-bottom', 'comparison-led', 'process-led', 'table-led', 'timeline-led',
+  'checklist-led', 'metric-led', 'mixed-narrative', 'banded', 'poster-sidebar', 'dashboard-lite',
+]);
+const CompositionAxisSchema = z.enum(['horizontal', 'vertical']);
 export const PortfolioTemplateSchema = z.enum([
   'catalog-troubleshooting', 'validation-qa', 'root-cause-investigation',
   'remediation-comparison', 'strategic-approach',
@@ -113,6 +119,34 @@ const CanonicalSectionSchema = z.discriminatedUnion('kind', [
   TableLiteSectionSchema,
 ]);
 
+const SourceHintsSchema = z.object({
+  template: PortfolioTemplateSchema.optional(),
+  preferredColumns: z.union([z.literal(2), z.literal(3)]).optional(),
+  emphasisOrder: z.array(z.string().min(1)).default([]),
+  sourceLayoutGuess: LayoutFamilySchema.optional(),
+  compositionConfidence: z.number().min(0).max(1).optional(),
+  visualNotes: z.array(z.string().min(1)).default([]),
+  compositionPattern: CompositionPatternSchema.optional(),
+  primaryAxis: CompositionAxisSchema.optional(),
+  columnRatios: z.array(z.number().positive()).min(1).max(3).optional(),
+  sectionGroups: z.array(z.object({
+    id: z.string().min(1),
+    sectionIds: z.array(z.string().min(1)).min(1),
+    direction: CompositionAxisSchema.optional(),
+  }).strict()).optional(),
+  sectionOrder: z.array(z.string().min(1)).optional(),
+  zoneMap: z.array(z.object({
+    sectionId: z.string().min(1),
+    x: z.number().min(0).max(1),
+    y: z.number().min(0).max(1),
+    w: z.number().positive().max(1),
+    h: z.number().positive().max(1),
+  }).strict().refine((zone) => zone.x + zone.w <= 1 && zone.y + zone.h <= 1, {
+    message: 'zone must remain within normalized 0–1 coordinates',
+  })).optional(),
+  relativeImportance: z.record(z.string().min(1), z.number().min(0).max(1)).optional(),
+}).strict().prefault({});
+
 export const CanonicalInfographicSchema = z.object({
   meta: z.object({
     version: z.literal(1),
@@ -137,15 +171,39 @@ export const CanonicalInfographicSchema = z.object({
     }).strict()).default([]),
     disclaimer: z.string().optional(),
   }).strict(),
-  sourceHints: z.object({
-    template: PortfolioTemplateSchema.optional(),
-    preferredColumns: z.union([z.literal(2), z.literal(3)]).optional(),
-    emphasisOrder: z.array(z.string().min(1)).default([]),
-    sourceLayoutGuess: LayoutFamilySchema.optional(),
-    compositionConfidence: z.number().min(0).max(1).optional(),
-    visualNotes: z.array(z.string().min(1)).default([]),
-  }).strict().prefault({}),
-}).strict();
+  sourceHints: SourceHintsSchema,
+}).strict().superRefine((data, ctx) => {
+  const sectionIds = new Set(data.sections.map((section) => section.id));
+  const structuralIds = new Set(['hero', 'footer', ...sectionIds]);
+  const importanceIds = new Set(['hero', ...sectionIds]);
+  const { sourceHints } = data;
+
+  const addIssue = (path: (string | number)[], message: string) => ctx.addIssue({
+    code: 'custom', path: ['sourceHints', ...path], message,
+  });
+
+  const groupIds = sourceHints.sectionGroups?.map((group) => group.id) ?? [];
+  if (new Set(groupIds).size !== groupIds.length) addIssue(['sectionGroups'], 'section group IDs must be unique');
+  sourceHints.sectionGroups?.forEach((group, groupIndex) => group.sectionIds.forEach((sectionId, sectionIndex) => {
+    if (!structuralIds.has(sectionId)) addIssue(['sectionGroups', groupIndex, 'sectionIds', sectionIndex], `unknown section reference: ${sectionId}`);
+  }));
+
+  const order = sourceHints.sectionOrder ?? [];
+  if (new Set(order).size !== order.length) addIssue(['sectionOrder'], 'section order IDs must be unique');
+  order.forEach((sectionId, index) => {
+    if (!sectionIds.has(sectionId)) addIssue(['sectionOrder', index], `unknown section reference: ${sectionId}`);
+  });
+
+  const zoneIds = sourceHints.zoneMap?.map((zone) => zone.sectionId) ?? [];
+  if (new Set(zoneIds).size !== zoneIds.length) addIssue(['zoneMap'], 'zone map section IDs must be unique');
+  sourceHints.zoneMap?.forEach((zone, index) => {
+    if (!structuralIds.has(zone.sectionId)) addIssue(['zoneMap', index, 'sectionId'], `unknown section reference: ${zone.sectionId}`);
+  });
+
+  Object.keys(sourceHints.relativeImportance ?? {}).forEach((sectionId) => {
+    if (!importanceIds.has(sectionId)) addIssue(['relativeImportance', sectionId], `unknown section reference: ${sectionId}`);
+  });
+});
 
 export type CanonicalInfographic = z.infer<typeof CanonicalInfographicSchema>;
 export type CanonicalSection = CanonicalInfographic['sections'][number];

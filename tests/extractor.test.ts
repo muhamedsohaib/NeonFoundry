@@ -1,5 +1,6 @@
 import { expect, it } from 'vitest';
 import { extractWithOpenAI } from '../src/extract/openai-extractor.js';
+import { parseStructuredExtraction } from '../src/extract/structured-schema.js';
 
 it('fails clearly before an API call when the key is missing', async () => {
   await expect(extractWithOpenAI({ mode: 'report', path: 'report.txt', text: 'Three KPIs improved.' }, { apiKey: '' }))
@@ -15,6 +16,36 @@ it('accepts an injected structured response and normalizes it', async () => {
   }});
   const doc = await extractWithOpenAI({ mode: 'report', path: 'report.txt', text: 'Lift was 18%.' }, { apiKey: 'test', parse });
   expect(doc.hero.title).toBe('PERFORMANCE');
+});
+
+it('strips nullable source composition hints from structured extraction', () => {
+  const doc = parseStructuredExtraction({
+    meta: { version: 1, intent: 'report', layoutFamily: 'auto', sourceMode: 'report' },
+    hero: { eyebrow: null, title: 'PERFORMANCE', highlight: null, subtitle: null, tags: [], metrics: [] },
+    sections: [], footer: { facts: [], disclaimer: null },
+    sourceHints: {
+      preferredColumns: null, emphasisOrder: [], sourceLayoutGuess: null, compositionConfidence: null, visualNotes: [],
+      compositionPattern: null, primaryAxis: null, columnRatios: null, sectionGroups: null, sectionOrder: null,
+      zoneMap: null, relativeImportance: null,
+    },
+  });
+
+  expect(doc.sourceHints).toEqual({ emphasisOrder: [], visualNotes: [] });
+});
+
+it('asks image extraction for coarse source structure alongside semantic fidelity', async () => {
+  const requests: Record<string, unknown>[] = [];
+  const parse = async (request: Record<string, unknown>) => {
+    requests.push(request);
+    throw new Error('stop after request capture');
+  };
+
+  await expect(extractWithOpenAI(
+    { mode: 'image', path: 'source.png', png: Buffer.from('fake'), dataUrl: 'data:image/png;base64,AA==' },
+    { apiKey: 'test', parse },
+  )).rejects.toThrow('stop after request capture');
+
+  expect(JSON.stringify(requests[0])).toMatch(/major zones.*columns.*grouping.*section order.*relative emphasis/i);
 });
 
 it('retries image extraction once when the first structured result is semantically incomplete', async () => {
@@ -145,6 +176,41 @@ it('merges complementary image extraction attempts before fidelity acceptance', 
   expect(doc.sections.some((section) => section.kind === 'process-steps')).toBe(true);
   expect(doc.sections.some((section) => section.kind === 'metric-grid')).toBe(true);
   expect(doc.sections.some((section) => section.kind === 'bullet-list' && /evidence/i.test(section.title))).toBe(true);
+});
+
+it('keeps the higher-confidence coherent source geometry when retries disagree', async () => {
+  const base = {
+    meta: { version: 1, intent: 'comparison', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { eyebrow: null, title: 'BEFORE vs AFTER CATALOG REMEDIATION', highlight: null, subtitle: null, tags: [], metrics: [] },
+    footer: { facts: [], disclaimer: null },
+  };
+  const first = { ...base, sourceHints: {
+    preferredColumns: null, sourceLayoutGuess: null, compositionConfidence: 0.9, emphasisOrder: ['evidence validation', 'hero', 'compare'], visualNotes: ['hero is left'],
+    zoneMap: [{ sectionId: 'hero', x: 0, y: 0, w: 0.45, h: 0.3 }], sectionOrder: ['compare'],
+    compositionPattern: null, primaryAxis: null, columnRatios: null, sectionGroups: null, relativeImportance: null,
+  }, sections: [{ id: 'compare', kind: 'comparison', title: 'BEFORE vs AFTER', description: null, tone: null, columns: [
+    { label: 'BEFORE', items: ['Variation suppressed', 'Broken links'], tone: null }, { label: 'AFTER', items: ['Variation active', 'Links restored'], tone: null },
+  ] }] };
+  const second = { ...base, sourceHints: {
+    preferredColumns: null, sourceLayoutGuess: null, compositionConfidence: 0.2, emphasisOrder: ['compare', 'hero', 'evidence validation'], visualNotes: ['hero is above'],
+    zoneMap: [{ sectionId: 'hero', x: 0, y: 0, w: 1, h: 0.2 }], sectionOrder: ['compare'],
+    compositionPattern: null, primaryAxis: null, columnRatios: null, sectionGroups: null, relativeImportance: null,
+  }, sections: [
+    ...first.sections,
+    { id: 'metrics', kind: 'metric-grid', title: 'RESULTS', description: null, tone: null, metrics: [{ label: 'Issues resolved', value: '5', detail: null, tone: null }] },
+    { id: 'evidence', kind: 'bullet-list', title: 'EVIDENCE & VALIDATION', description: null, tone: null, items: ['CHANGE LOG — timestamps recorded', 'QA CHECKS — manual QA passed'] },
+  ], footer: { facts: [{ label: 'Duration', value: '7 DAYS', tone: null }], disclaimer: null } };
+  const responses = [first, second]; let calls = 0;
+  const parse = async () => ({ status: 'completed', output_parsed: responses[calls++] });
+  const doc = await extractWithOpenAI(
+    { mode: 'image', path: 'source.png', png: Buffer.from('fake'), dataUrl: 'data:image/png;base64,AA==' },
+    { apiKey: 'test', parse },
+  );
+
+  expect(calls).toBe(2);
+  expect(doc.sourceHints.zoneMap).toEqual(first.sourceHints.zoneMap);
+  expect(doc.sourceHints.visualNotes).toEqual(['hero is left']);
+  expect(doc.sourceHints.emphasisOrder).toEqual(['evidence validation', 'hero', 'compare']);
 });
 
 it('suppresses stale structural variants when a later attempt yields the canonical section', async () => {

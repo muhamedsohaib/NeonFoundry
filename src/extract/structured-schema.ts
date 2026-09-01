@@ -6,6 +6,12 @@ const SourceMode = z.enum(['image', 'report', 'json']);
 const LayoutFamily = z.enum(['auto', 'qa', 'dashboard', 'process', 'comparison', 'timeline']);
 const LayoutIntent = z.enum(['report', 'checklist', 'process', 'comparison', 'timeline', 'mixed']);
 const Tone = z.enum(['neutral', 'neon', 'success', 'warning', 'danger']);
+const CompositionPattern = z.enum([
+  'single-column', 'asymmetric-two-column', 'symmetric-two-column', 'hero-left-data-right',
+  'hero-top-content-bottom', 'comparison-led', 'process-led', 'table-led', 'timeline-led',
+  'checklist-led', 'metric-led', 'mixed-narrative', 'banded', 'poster-sidebar', 'dashboard-lite',
+]);
+const CompositionAxis = z.enum(['horizontal', 'vertical']);
 
 const Metric = z.object({
   label: z.string().min(1),
@@ -138,6 +144,26 @@ export const StructuredCanonicalExtractionSchema = z.object({
     sourceLayoutGuess: LayoutFamily.nullable(),
     compositionConfidence: z.number().min(0).max(1).nullable(),
     visualNotes: z.array(z.string().min(1)),
+    compositionPattern: CompositionPattern.nullable(),
+    primaryAxis: CompositionAxis.nullable(),
+    columnRatios: z.array(z.number().positive()).min(1).max(3).nullable(),
+    sectionGroups: z.array(z.object({
+      id: z.string().min(1),
+      sectionIds: z.array(z.string().min(1)).min(1),
+      direction: CompositionAxis.nullable(),
+    }).strict()).nullable(),
+    sectionOrder: z.array(z.string().min(1)).nullable(),
+    zoneMap: z.array(z.object({
+      sectionId: z.string().min(1),
+      x: z.number().min(0).max(1),
+      y: z.number().min(0).max(1),
+      w: z.number().positive().max(1),
+      h: z.number().positive().max(1),
+    }).strict()).nullable(),
+    relativeImportance: z.array(z.object({
+      sectionId: z.string().min(1),
+      value: z.number().min(0).max(1),
+    }).strict()).nullable(),
   }).strict(),
 }).strict();
 function stripNullObjectValues(value: unknown): unknown {
@@ -158,5 +184,14 @@ function stripNullObjectValues(value: unknown): unknown {
 
 export function parseStructuredExtraction(value: unknown): CanonicalInfographic {
   const parsed = StructuredCanonicalExtractionSchema.parse(value);
-  return parseCanonicalInfographic(stripNullObjectValues(parsed));
+  const relativeImportance = parsed.sourceHints.relativeImportance;
+  return parseCanonicalInfographic(stripNullObjectValues({
+    ...parsed,
+    sourceHints: {
+      ...parsed.sourceHints,
+      relativeImportance: relativeImportance === null ? null : Object.fromEntries(
+        relativeImportance.map(({ sectionId, value: importance }) => [sectionId, importance]),
+      ),
+    },
+  }));
 }
