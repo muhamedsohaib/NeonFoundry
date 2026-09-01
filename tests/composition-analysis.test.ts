@@ -172,3 +172,30 @@ it('treats explicit zone geometry as authoritative over weaker preferredColumns 
     expect.objectContaining({ code: 'source-columns' }),
   ]));
 });
+
+it('keeps a lone right-side source zone in the right column', () => {
+  const data = document([bullets('left'), bullets('right'), bullets('right-below')], {
+    zoneMap: [
+      { sectionId: 'left', x: 0, y: 0, w: 0.48, h: 0.3 },
+      { sectionId: 'right', x: 0.52, y: 0, w: 0.48, h: 0.3 },
+      { sectionId: 'right-below', x: 0.52, y: 0.4, w: 0.48, h: 0.3 },
+    ],
+  });
+
+  const region = analyzeComposition(data).regions.find((item) => item.sectionIds.includes('right-below'));
+  expect(region).toMatchObject({ column: 1, columnSpan: 1 });
+});
+
+it('lets explicit zone geometry determine column count when column ratios conflict', () => {
+  const data = document([bullets('left'), bullets('right')], {
+    columnRatios: [1, 1, 1],
+    zoneMap: [
+      { sectionId: 'left', x: 0, y: 0, w: 0.48, h: 0.4 },
+      { sectionId: 'right', x: 0.52, y: 0, w: 0.48, h: 0.4 },
+    ],
+  });
+
+  const blueprint = analyzeComposition(data);
+  expect(blueprint.columns).toBe(2);
+  expect(blueprint.columnRatios).toEqual([0.5, 0.5]);
+});

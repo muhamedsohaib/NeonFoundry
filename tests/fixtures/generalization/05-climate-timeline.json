@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "timeline",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Coastal Monitoring Cycle",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "timeline",
+      "kind": "timeline",
+      "title": "Seasonal sequence",
+      "events": [
+        {
+          "date": "JAN",
+          "label": "Sensor calibration"
+        },
+        {
+          "date": "APR",
+          "label": "Shoreline survey"
+        },
+        {
+          "date": "JUL",
+          "label": "Peak-season sampling"
+        },
+        {
+          "date": "OCT",
+          "label": "Annual synthesis"
+        }
+      ]
+    },
+    {
+      "id": "signals",
+      "kind": "bullet-list",
+      "title": "Signals tracked",
+      "items": [
+        "Water level",
+        "Erosion markers",
+        "Habitat observations"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "timeline",
+      "signals"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "timeline-led",
+    "primaryAxis": "vertical",
+    "sectionOrder": [
+      "timeline",
+      "signals"
+    ],
+    "relativeImportance": {
+      "timeline": 1,
+      "signals": 0.35
+    }
+  }
+}

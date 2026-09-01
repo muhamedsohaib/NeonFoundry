@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "comparison",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Course Delivery Reset",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "compare",
+      "kind": "comparison",
+      "title": "Before and after",
+      "columns": [
+        {
+          "label": "Before",
+          "tone": "danger",
+          "items": [
+            "Late materials",
+            "Scattered feedback",
+            "Uneven pacing"
+          ]
+        },
+        {
+          "label": "After",
+          "tone": "success",
+          "items": [
+            "Ready materials",
+            "Unified feedback",
+            "Shared pacing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "actions",
+      "kind": "process-steps",
+      "title": "Reset actions",
+      "steps": [
+        {
+          "label": "Audit"
+        },
+        {
+          "label": "Align"
+        },
+        {
+          "label": "Publish"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "compare",
+      "actions"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "comparison-led",
+    "primaryAxis": "vertical",
+    "sectionOrder": [
+      "compare",
+      "actions"
+    ],
+    "zoneMap": [
+      {
+        "sectionId": "hero",
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 0.18
+      },
+      {
+        "sectionId": "compare",
+        "x": 0,
+        "y": 0.24,
+        "w": 1,
+        "h": 0.38
+      },
+      {
+        "sectionId": "actions",
+        "x": 0,
+        "y": 0.68,
+        "w": 1,
+        "h": 0.2
+      },
+      {
+        "sectionId": "footer",
+        "x": 0,
+        "y": 0.93,
+        "w": 1,
+        "h": 0.07
+      }
+    ],
+    "relativeImportance": {
+      "compare": 1,
+      "actions": 0.45
+    }
+  }
+}

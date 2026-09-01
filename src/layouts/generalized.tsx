@@ -27,7 +27,7 @@ function RegionBlock({ data, region }: { data: CanonicalInfographic; region: Com
   const sections = regionSections(data, region);
   const direction = region.direction === 'horizontal' && sections.length > 1 ? row : column;
   return <div data-region={region.id} style={{ ...direction, gap: 26, minWidth: 0, ...emphasisStyle(region) }}>
-    {sections.map((section) => <div key={section.id} style={{ ...column, flex: 1, minWidth: 0 }}>
+    {sections.map((section) => <div key={section.id} style={{ ...column, ...(direction === row ? { flex: 1 } : {}), minWidth: 0 }}>
       <Section section={section} />
     </div>)}
   </div>;
@@ -63,15 +63,26 @@ function RegionRow({ data, blueprint, regions }: {
   if (regions.length === 1 && regions[0].columnSpan >= blueprint.columns) {
     return <RegionBlock data={data} region={regions[0]} />;
   }
-  return <div style={{ ...row, gap: 34, alignItems: 'flex-start' }}>
-    {regions.map((region) => {
-      const span = Math.max(1, region.columnSpan);
-      const ratio = blueprint.columnRatios.slice(region.column, region.column + span).reduce((sum, value) => sum + value, 0) || 1;
-      return <div key={region.id} style={{ ...column, flex: ratio, minWidth: 0 }}>
-        <RegionBlock data={data} region={region} />
-      </div>;
-    })}
-  </div>;
+  const segments: ReactNode[] = [];
+  let cursor = 0;
+  for (const region of regions) {
+    if (region.column > cursor) {
+      const ratio = blueprint.columnRatios.slice(cursor, region.column).reduce((sum, value) => sum + value, 0);
+      segments.push(<div key={`spacer-${cursor}`} style={{ ...column, flexGrow: ratio, flexBasis: 0, flexShrink: 1 }} />);
+    }
+    const span = Math.max(1, region.columnSpan);
+    const ratio = blueprint.columnRatios.slice(region.column, region.column + span).reduce((sum, value) => sum + value, 0) || 1;
+    segments.push(<div key={region.id} style={{ ...column, flexGrow: ratio, flexBasis: 0, flexShrink: 1, minWidth: 0,
+      paddingLeft: region.column > 0 ? 17 : 0, paddingRight: region.column + span < blueprint.columns ? 17 : 0 }}>
+      <RegionBlock data={data} region={region} />
+    </div>);
+    cursor = Math.max(cursor, region.column + span);
+  }
+  if (cursor < blueprint.columns) {
+    const ratio = blueprint.columnRatios.slice(cursor).reduce((sum, value) => sum + value, 0);
+    segments.push(<div key={`spacer-${cursor}`} style={{ ...column, flexGrow: ratio, flexBasis: 0, flexShrink: 1 }} />);
+  }
+  return <div style={{ ...row, gap: 0, alignItems: 'flex-start' }}>{segments}</div>;
 }
 
 export function GeneralizedLayout({ data, blueprint, width, height }: Props): ReactNode {

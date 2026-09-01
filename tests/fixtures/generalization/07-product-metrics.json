@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "report",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Release Reliability Snapshot",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "metrics",
+      "kind": "metric-grid",
+      "title": "Release signals",
+      "metrics": [
+        {
+          "label": "Deploy success",
+          "value": "99.2%"
+        },
+        {
+          "label": "Rollback",
+          "value": "1"
+        },
+        {
+          "label": "Lead time",
+          "value": "2.4d"
+        },
+        {
+          "label": "Incidents",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "id": "notes",
+      "kind": "bullet-list",
+      "title": "Interpretation",
+      "items": [
+        "Stable release train",
+        "One rollback contained",
+        "Lead time trending down"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "metrics",
+      "notes"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "metric-led",
+    "primaryAxis": "vertical",
+    "sectionOrder": [
+      "metrics",
+      "notes"
+    ],
+    "zoneMap": [
+      {
+        "sectionId": "hero",
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 0.18
+      },
+      {
+        "sectionId": "metrics",
+        "x": 0,
+        "y": 0.26,
+        "w": 1,
+        "h": 0.3
+      },
+      {
+        "sectionId": "notes",
+        "x": 0,
+        "y": 0.65,
+        "w": 0.55,
+        "h": 0.2
+      },
+      {
+        "sectionId": "footer",
+        "x": 0,
+        "y": 0.93,
+        "w": 1,
+        "h": 0.07
+      }
+    ],
+    "relativeImportance": {
+      "metrics": 1,
+      "notes": 0.35
+    }
+  }
+}

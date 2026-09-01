@@ -1,0 +1,258 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "mixed",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Security Operations Brief",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "signals",
+      "kind": "metric-grid",
+      "title": "Detection signals",
+      "metrics": [
+        {
+          "label": "Alerts",
+          "value": "146"
+        },
+        {
+          "label": "Escalated",
+          "value": "12"
+        },
+        {
+          "label": "Contained",
+          "value": "9"
+        },
+        {
+          "label": "SLA",
+          "value": "96%"
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "kind": "process-steps",
+      "title": "Response flow",
+      "steps": [
+        {
+          "label": "Detect"
+        },
+        {
+          "label": "Triage"
+        },
+        {
+          "label": "Contain"
+        },
+        {
+          "label": "Recover"
+        }
+      ]
+    },
+    {
+      "id": "matrix",
+      "kind": "table-lite",
+      "title": "Priority matrix",
+      "columns": [
+        "Priority",
+        "Trigger",
+        "Owner"
+      ],
+      "rows": [
+        [
+          "P1",
+          "Active impact",
+          "Incident lead"
+        ],
+        [
+          "P2",
+          "High confidence",
+          "SOC lead"
+        ],
+        [
+          "P3",
+          "Review required",
+          "Analyst"
+        ]
+      ]
+    },
+    {
+      "id": "checks",
+      "kind": "checklist",
+      "title": "Closure checks",
+      "items": [
+        {
+          "label": "Evidence retained",
+          "status": "passed"
+        },
+        {
+          "label": "Owner confirmed",
+          "status": "passed"
+        },
+        {
+          "label": "Follow-up scheduled",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "id": "lessons",
+      "kind": "bullet-list",
+      "title": "Lessons",
+      "items": [
+        "Tune noisy rule set",
+        "Improve asset context",
+        "Automate evidence package"
+      ]
+    },
+    {
+      "id": "timeline",
+      "kind": "timeline",
+      "title": "Shift cadence",
+      "events": [
+        {
+          "date": "08:00",
+          "label": "Handoff"
+        },
+        {
+          "date": "12:00",
+          "label": "Risk review"
+        },
+        {
+          "date": "17:00",
+          "label": "Closure review"
+        }
+      ]
+    },
+    {
+      "id": "cycle",
+      "kind": "diagram-cycle",
+      "title": "Improvement loop",
+      "nodes": [
+        {
+          "label": "Observe"
+        },
+        {
+          "label": "Tune"
+        },
+        {
+          "label": "Validate"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "signals",
+      "flow",
+      "matrix",
+      "checks",
+      "lessons",
+      "timeline",
+      "cycle"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "dashboard-lite",
+    "primaryAxis": "vertical",
+    "columnRatios": [
+      1,
+      1
+    ],
+    "sectionOrder": [
+      "signals",
+      "flow",
+      "matrix",
+      "checks",
+      "lessons",
+      "timeline",
+      "cycle"
+    ],
+    "zoneMap": [
+      {
+        "sectionId": "hero",
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 0.13
+      },
+      {
+        "sectionId": "signals",
+        "x": 0,
+        "y": 0.18,
+        "w": 0.48,
+        "h": 0.16
+      },
+      {
+        "sectionId": "flow",
+        "x": 0.52,
+        "y": 0.18,
+        "w": 0.48,
+        "h": 0.16
+      },
+      {
+        "sectionId": "matrix",
+        "x": 0,
+        "y": 0.39,
+        "w": 1,
+        "h": 0.19
+      },
+      {
+        "sectionId": "checks",
+        "x": 0,
+        "y": 0.63,
+        "w": 0.48,
+        "h": 0.13
+      },
+      {
+        "sectionId": "lessons",
+        "x": 0.52,
+        "y": 0.63,
+        "w": 0.48,
+        "h": 0.13
+      },
+      {
+        "sectionId": "timeline",
+        "x": 0,
+        "y": 0.8,
+        "w": 1,
+        "h": 0.08
+      },
+      {
+        "sectionId": "cycle",
+        "x": 0,
+        "y": 0.89,
+        "w": 1,
+        "h": 0.06
+      },
+      {
+        "sectionId": "footer",
+        "x": 0,
+        "y": 0.96,
+        "w": 1,
+        "h": 0.04
+      }
+    ],
+    "relativeImportance": {
+      "matrix": 1,
+      "signals": 0.8,
+      "flow": 0.75,
+      "checks": 0.5,
+      "lessons": 0.4,
+      "timeline": 0.35,
+      "cycle": 0.3
+    }
+  }
+}

@@ -40,6 +40,20 @@ function normalizeRatios(ratios: number[], columns: number): number[] {
   return usable.map((ratio) => ratio / total);
 }
 
+function ratiosFromGeometry(rows: Zone[][], columns: number): number[] {
+  const widest = rows.find((row) => row.length === columns);
+  return widest ? normalizeRatios(widest.map((zone) => zone.w), columns) : normalizeRatios([], columns);
+}
+
+function columnForX(ratios: number[], x: number): number {
+  let edge = 0;
+  for (let index = 0; index < ratios.length; index += 1) {
+    edge += ratios[index];
+    if (x < edge - 1e-6) return index;
+  }
+  return Math.max(0, ratios.length - 1);
+}
+
 function density(count: number): CompositionDensity {
   return count >= 7 ? 'dense' : count <= 2 ? 'sparse' : 'balanced';
 }
@@ -104,28 +118,31 @@ function geometryRegions(
   data: CanonicalInfographic,
   items: Array<{ id: string; sectionIds: string[]; direction?: CompositionAxis }>,
   columns: number,
+  ratios: number[],
   axis: CompositionAxis,
 ): CompositionRegion[] {
   const zoneBySection = new Map((data.sourceHints.zoneMap ?? []).map((zone) => [zone.sectionId, zone]));
   const zones = items.flatMap((item) => item.sectionIds.map((id) => zoneBySection.get(id)).filter((zone): zone is Zone => Boolean(zone)));
   const rowBySection = new Map<string, number>();
-  const columnBySection = new Map<string, number>();
-  zoneRows(zones).forEach((row, rowIndex) => row.forEach((zone, columnIndex) => {
+  zoneRows(zones).forEach((row, rowIndex) => row.forEach((zone) => {
     rowBySection.set(zone.sectionId, rowIndex);
-    columnBySection.set(zone.sectionId, columnIndex);
   }));
   const regions = items.map((item, index) => {
     const itemZones = item.sectionIds.map((id) => zoneBySection.get(id)).filter((zone): zone is Zone => Boolean(zone));
     const first = itemZones[0];
     const row = first ? rowBySection.get(first.sectionId)! : zoneRows(zones).length + index;
     const fullWidth = !first || itemZones.some((zone) => zone.w >= 0.75) || semanticFullWidth(item.sectionIds, new Map(data.sections.map((section) => [section.id, section])), axis);
+    const startX = first ? Math.min(...itemZones.map((zone) => zone.x)) : 0;
+    const endX = first ? Math.max(...itemZones.map((zone) => zone.x + zone.w)) : 1;
+    const startColumn = fullWidth ? 0 : columnForX(ratios, startX);
+    const endColumn = fullWidth ? columns - 1 : columnForX(ratios, Math.max(startX, endX - 1e-6));
     return {
       id: item.id,
       sectionIds: item.sectionIds,
       row,
-      column: fullWidth ? 0 : Math.min(columns - 1, columnBySection.get(first.sectionId) ?? 0),
+      column: startColumn,
       rowSpan: 1,
-      columnSpan: fullWidth ? columns : 1,
+      columnSpan: fullWidth ? columns : Math.max(1, endColumn - startColumn + 1),
       direction: item.direction ?? axis,
       emphasis: 'supporting' as RegionEmphasis,
       importance: Math.max(...item.sectionIds.map((id) => importance(data, id))),
@@ -172,18 +189,25 @@ export function analyzeComposition(data: CanonicalInfographic): CompositionBluep
   const hasGroups = Boolean(data.sourceHints.sectionGroups?.length);
   const inferredFamily = family(data);
   const axis = data.sourceHints.primaryAxis ?? 'vertical';
-  const geometryRows = hasGeometry ? zoneRows((data.sourceHints.zoneMap ?? []).filter((zone) => sourceOrder.includes(zone.sectionId))) : [];
-  const columns = data.sourceHints.columnRatios?.length
-    ?? (hasGeometry ? Math.max(1, ...geometryRows.map((row) => row.length)) : data.sourceHints.preferredColumns ?? familyColumns(inferredFamily));
+  const structuralZones = (data.sourceHints.zoneMap ?? []).filter((zone) => zone.sectionId !== 'footer'
+    && (zone.sectionId === 'hero' || sourceOrder.includes(zone.sectionId)));
+  const geometryRows = hasGeometry ? zoneRows(structuralZones) : [];
+  const geometryColumns = hasGeometry ? Math.max(1, ...geometryRows.map((row) => row.length)) : undefined;
+  const columns = geometryColumns ?? data.sourceHints.columnRatios?.length
+    ?? data.sourceHints.preferredColumns ?? familyColumns(inferredFamily);
+  const geometryRatios = ratiosFromGeometry(geometryRows, columns);
+  const ratios = data.sourceHints.columnRatios?.length === columns
+    ? normalizeRatios(data.sourceHints.columnRatios, columns)
+    : geometryRatios;
   const groups = groupedSections(ordered, data.sourceHints.sectionGroups);
   const provenance: CompositionProvenance = hasGeometry ? 'explicit-geometry' : hasGroups ? 'explicit-groups'
     : inferredFamily === 'single-column' || inferredFamily === 'mixed-narrative' ? 'safe-fallback' : 'structural-inference';
-  const regions = hasGeometry ? geometryRegions(data, groups, columns, axis) : inferredRegions(data, groups, columns, axis);
+  const regions = hasGeometry ? geometryRegions(data, groups, columns, ratios, axis) : inferredRegions(data, groups, columns, axis);
 
   return {
     family: inferredFamily,
     columns,
-    columnRatios: normalizeRatios(data.sourceHints.columnRatios ?? [], columns),
+    columnRatios: ratios,
     primaryAxis: axis,
     density: density(sourceOrder.length),
     sourceOrder,

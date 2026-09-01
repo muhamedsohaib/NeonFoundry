@@ -107,6 +107,12 @@ Satori node geometry is checked before export; source text that does not fit cau
 error instead of clipping beneath a card or footer. Debug JSON records template,
 canvas, and measured geometry without adding diagnostic labels to client artwork.
 
+## Structure-preserving generalization
+
+Unknown infographics are analyzed into a deterministic composition blueprint instead of being forced into a generic dashboard. Optional `sourceHints` can preserve coarse `zoneMap` geometry, `sectionGroups`, `sectionOrder`, `compositionPattern`, `primaryAxis`, `columnRatios`, and `relativeImportance`. Explicit geometry/grouping takes precedence; absent hints fall back conservatively to source order and semantic section grammar.
+
+Tables remain tables, comparisons remain paired, timelines remain chronological, and process/checklist/metric structures retain their visual grammar. Debug JSON includes the inferred `blueprint` and heuristic `compositionFidelity` report; those diagnostics never appear in client SVG/PNG output. Canvas height grows automatically when needed, while an explicitly undersized fixed canvas fails rather than clipping content.
+
 Input formats include PNG, JPEG, WebP, TXT, Markdown, canonical JSON, and the bundled legacy JSON fixture.
 
 ## Pipeline
@@ -116,7 +122,8 @@ ingest
   → semantic extraction / local normalization
   → deterministic semantic repair
   → source-fidelity validation
-  → layout selection
+  → layout / specialized-template selection
+  → source composition blueprint + fidelity analysis
   → density / quality analysis
   → Satori SVG render
   → PNG export

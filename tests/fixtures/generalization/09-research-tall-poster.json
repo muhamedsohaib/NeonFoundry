@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "report",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Field Study Operations Map",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "scope",
+      "kind": "callout",
+      "title": "Study scope",
+      "body": "Coordinate sampling, quality review, synthesis, and publication across a distributed field program."
+    },
+    {
+      "id": "phase1",
+      "kind": "process-steps",
+      "title": "Collection",
+      "steps": [
+        {
+          "label": "Plan"
+        },
+        {
+          "label": "Sample"
+        },
+        {
+          "label": "Record"
+        }
+      ]
+    },
+    {
+      "id": "phase2",
+      "kind": "process-steps",
+      "title": "Quality review",
+      "steps": [
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Reconcile"
+        },
+        {
+          "label": "Approve"
+        }
+      ]
+    },
+    {
+      "id": "phase3",
+      "kind": "process-steps",
+      "title": "Synthesis",
+      "steps": [
+        {
+          "label": "Aggregate"
+        },
+        {
+          "label": "Analyze"
+        },
+        {
+          "label": "Draft"
+        }
+      ]
+    },
+    {
+      "id": "phase4",
+      "kind": "process-steps",
+      "title": "Publication",
+      "steps": [
+        {
+          "label": "Review"
+        },
+        {
+          "label": "Release"
+        },
+        {
+          "label": "Archive"
+        }
+      ]
+    },
+    {
+      "id": "notes",
+      "kind": "bullet-list",
+      "title": "Traceability",
+      "items": [
+        "Versioned field notes",
+        "Quality decisions logged",
+        "Release package archived"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "scope",
+      "phase1",
+      "phase2",
+      "phase3",
+      "phase4",
+      "notes"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "single-column",
+    "primaryAxis": "vertical",
+    "sectionOrder": [
+      "scope",
+      "phase1",
+      "phase2",
+      "phase3",
+      "phase4",
+      "notes"
+    ],
+    "relativeImportance": {
+      "scope": 0.6,
+      "phase1": 1,
+      "phase2": 0.8,
+      "phase3": 0.8,
+      "phase4": 0.7,
+      "notes": 0.3
+    }
+  }
+}

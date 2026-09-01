@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "checklist",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Clinic Operations Readiness",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "checks",
+      "kind": "checklist",
+      "title": "Readiness checks",
+      "items": [
+        {
+          "label": "Rooms prepared",
+          "status": "passed"
+        },
+        {
+          "label": "Supplies staged",
+          "status": "passed"
+        },
+        {
+          "label": "Shift handoff complete",
+          "status": "passed"
+        },
+        {
+          "label": "Escalation contacts confirmed",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "id": "capacity",
+      "kind": "metric-grid",
+      "title": "Operations capacity",
+      "metrics": [
+        {
+          "label": "Open rooms",
+          "value": "12"
+        },
+        {
+          "label": "Teams",
+          "value": "5"
+        },
+        {
+          "label": "Readiness",
+          "value": "100%"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "checks",
+      "capacity"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "checklist-led",
+    "primaryAxis": "vertical",
+    "preferredColumns": 2,
+    "sectionOrder": [
+      "checks",
+      "capacity"
+    ],
+    "sectionGroups": [
+      {
+        "id": "readiness-pair",
+        "sectionIds": [
+          "checks",
+          "capacity"
+        ],
+        "direction": "horizontal"
+      }
+    ],
+    "relativeImportance": {
+      "checks": 1,
+      "capacity": 0.55
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "process",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Grid Restoration Sequence",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "flow",
+      "kind": "process-steps",
+      "title": "Restoration flow",
+      "steps": [
+        {
+          "label": "Detect"
+        },
+        {
+          "label": "Isolate"
+        },
+        {
+          "label": "Reroute"
+        },
+        {
+          "label": "Restore"
+        },
+        {
+          "label": "Verify"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "kind": "bullet-list",
+      "title": "Operating controls",
+      "items": [
+        "Crew confirmation",
+        "Load balance check",
+        "Post-event review"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "flow",
+      "controls"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "single-column",
+    "primaryAxis": "vertical",
+    "sectionOrder": [
+      "flow",
+      "controls"
+    ],
+    "relativeImportance": {
+      "flow": 1,
+      "controls": 0.4
+    }
+  }
+}

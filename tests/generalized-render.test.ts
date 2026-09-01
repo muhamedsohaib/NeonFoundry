@@ -74,3 +74,25 @@ it('writes blueprint and composition fidelity only to debug diagnostics', async 
   expect(debug.compositionFidelity).toEqual(rendered.compositionFidelity);
   expect(rendered.svg).not.toContain('explicit-geometry');
 });
+
+it('preserves a lone right-column panel instead of stretching it full width', async () => {
+  const raw = sourceDocument();
+  const data = parseCanonicalInfographic({
+    ...raw,
+    sections: [...raw.sections, { id: 'right-only', kind: 'bullet-list', title: 'Right only', items: ['Stay right'] }],
+    sourceHints: {
+      ...raw.sourceHints,
+      sectionOrder: [...(raw.sourceHints.sectionOrder ?? []), 'right-only'],
+      zoneMap: [
+        ...(raw.sourceHints.zoneMap ?? []).filter((zone) => zone.sectionId !== 'footer'),
+        { sectionId: 'right-only', x: 0.67, y: 0.87, w: 0.33, h: 0.06 },
+        { sectionId: 'footer', x: 0, y: 0.96, w: 1, h: 0.04 },
+      ],
+    },
+  });
+  const rendered = await renderInfographic(data, selectLayout(data, 'auto'), deriveRenderProfile(runQualityChecks(data)));
+  const region = rendered.geometry.find((node) => node.region === 'right-only');
+  expect(region).toBeDefined();
+  expect(region!.left).toBeGreaterThan(rendered.width * 0.5);
+  expect(region!.width).toBeLessThan(rendered.width * 0.5);
+}, 15_000);

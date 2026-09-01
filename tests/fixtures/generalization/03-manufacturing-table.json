@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "report",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Line Quality Review",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "table",
+      "kind": "table-lite",
+      "title": "Defect register",
+      "columns": [
+        "Station",
+        "Issue",
+        "Impact"
+      ],
+      "rows": [
+        [
+          "A1",
+          "Seal variance",
+          "Rework"
+        ],
+        [
+          "B4",
+          "Label drift",
+          "Inspection"
+        ],
+        [
+          "C2",
+          "Torque spread",
+          "Hold"
+        ]
+      ]
+    },
+    {
+      "id": "summary",
+      "kind": "metric-grid",
+      "title": "Quality summary",
+      "metrics": [
+        {
+          "label": "Lots checked",
+          "value": "42"
+        },
+        {
+          "label": "Escapes",
+          "value": "0"
+        },
+        {
+          "label": "Rework",
+          "value": "3.1%"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "table",
+      "summary"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "table-led",
+    "primaryAxis": "vertical",
+    "sectionOrder": [
+      "table",
+      "summary"
+    ],
+    "relativeImportance": {
+      "table": 1,
+      "summary": 0.45
+    }
+  }
+}

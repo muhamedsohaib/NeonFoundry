@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "mixed",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Regional Dispatch Pulse",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "signals",
+      "kind": "metric-grid",
+      "title": "Dispatch signals",
+      "metrics": [
+        {
+          "label": "On-time",
+          "value": "94%"
+        },
+        {
+          "label": "Backlog",
+          "value": "18"
+        },
+        {
+          "label": "Hubs",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "id": "priorities",
+      "kind": "bullet-list",
+      "title": "Priority actions",
+      "items": [
+        "Clear coastal backlog",
+        "Protect overnight capacity",
+        "Rebalance drivers"
+      ]
+    },
+    {
+      "id": "flow",
+      "kind": "process-steps",
+      "title": "Dispatch flow",
+      "steps": [
+        {
+          "label": "Intake"
+        },
+        {
+          "label": "Route"
+        },
+        {
+          "label": "Load"
+        },
+        {
+          "label": "Dispatch"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "signals",
+      "priorities",
+      "flow"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "hero-left-data-right",
+    "primaryAxis": "horizontal",
+    "columnRatios": [
+      3,
+      2
+    ],
+    "sectionOrder": [
+      "signals",
+      "flow",
+      "priorities"
+    ],
+    "zoneMap": [
+      {
+        "sectionId": "hero",
+        "x": 0,
+        "y": 0,
+        "w": 0.56,
+        "h": 0.22
+      },
+      {
+        "sectionId": "signals",
+        "x": 0.62,
+        "y": 0,
+        "w": 0.38,
+        "h": 0.22
+      },
+      {
+        "sectionId": "flow",
+        "x": 0,
+        "y": 0.3,
+        "w": 1,
+        "h": 0.27
+      },
+      {
+        "sectionId": "priorities",
+        "x": 0,
+        "y": 0.66,
+        "w": 0.48,
+        "h": 0.2
+      },
+      {
+        "sectionId": "footer",
+        "x": 0,
+        "y": 0.92,
+        "w": 1,
+        "h": 0.08
+      }
+    ],
+    "relativeImportance": {
+      "flow": 1,
+      "signals": 0.8,
+      "priorities": 0.4
+    }
+  }
+}

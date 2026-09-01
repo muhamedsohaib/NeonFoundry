@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "version": 1,
+    "intent": "mixed",
+    "layoutFamily": "auto",
+    "sourceMode": "json"
+  },
+  "hero": {
+    "eyebrow": "FIELD BRIEF",
+    "title": "Permit Service Improvement",
+    "tags": [],
+    "metrics": []
+  },
+  "sections": [
+    {
+      "id": "problem",
+      "kind": "callout",
+      "title": "Service problem",
+      "body": "Residents faced unclear status updates and repeated document requests."
+    },
+    {
+      "id": "flow",
+      "kind": "process-steps",
+      "title": "Improved path",
+      "steps": [
+        {
+          "label": "Submit"
+        },
+        {
+          "label": "Review"
+        },
+        {
+          "label": "Resolve"
+        },
+        {
+          "label": "Notify"
+        }
+      ]
+    },
+    {
+      "id": "results",
+      "kind": "metric-grid",
+      "title": "Service results",
+      "metrics": [
+        {
+          "label": "Median days",
+          "value": "6"
+        },
+        {
+          "label": "Repeat requests",
+          "value": "-38%"
+        },
+        {
+          "label": "Digital status",
+          "value": "100%"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "kind": "bullet-list",
+      "title": "Controls",
+      "items": [
+        "Single checklist",
+        "Status notifications",
+        "Escalation timer"
+      ]
+    }
+  ],
+  "footer": {
+    "facts": [
+      {
+        "label": "Status",
+        "value": "Verified"
+      }
+    ]
+  },
+  "sourceHints": {
+    "emphasisOrder": [
+      "problem",
+      "flow",
+      "results",
+      "controls"
+    ],
+    "visualNotes": [],
+    "compositionPattern": "mixed-narrative",
+    "primaryAxis": "vertical",
+    "preferredColumns": 2,
+    "sectionOrder": [
+      "problem",
+      "flow",
+      "results",
+      "controls"
+    ],
+    "sectionGroups": [
+      {
+        "id": "bottom-pair",
+        "sectionIds": [
+          "results",
+          "controls"
+        ],
+        "direction": "horizontal"
+      }
+    ],
+    "relativeImportance": {
+      "flow": 1,
+      "problem": 0.7,
+      "results": 0.55,
+      "controls": 0.4
+    }
+  }
+}
