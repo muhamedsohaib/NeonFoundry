@@ -233,7 +233,6 @@ function mergeCandidateDocuments(
     },
     sourceHints: {
       ...preferredHints,
-      template: current.sourceHints.template ?? next.sourceHints.template,
       compositionConfidence: Math.max(current.sourceHints.compositionConfidence ?? 0, next.sourceHints.compositionConfidence ?? 0),
       emphasisOrder: compatibleHints
         ? uniqueStrings([...current.sourceHints.emphasisOrder, ...next.sourceHints.emphasisOrder])

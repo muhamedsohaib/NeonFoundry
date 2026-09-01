@@ -213,6 +213,37 @@ it('keeps the higher-confidence coherent source geometry when retries disagree',
   expect(doc.sourceHints.emphasisOrder).toEqual(['evidence validation', 'hero', 'compare']);
 });
 
+it('keeps the higher-confidence template with conflicting retry geometry', async () => {
+  const base = {
+    meta: { version: 1, intent: 'comparison', layoutFamily: 'auto', sourceMode: 'image' },
+    hero: { title: 'BEFORE vs AFTER' }, footer: { facts: [] },
+    sections: [{ id: 'compare', kind: 'comparison', title: 'BEFORE vs AFTER', columns: [
+      { label: 'BEFORE', items: ['Variation suppressed', 'Broken links'] },
+      { label: 'AFTER', items: ['Variation active', 'Links restored'] },
+    ] }],
+  };
+  const first = { ...base, sourceHints: {
+    template: 'catalog-troubleshooting', compositionConfidence: 0.2, emphasisOrder: ['evidence validation'],
+    zoneMap: [{ sectionId: 'hero', x: 0, y: 0, w: 0.45, h: 0.3 }],
+  } };
+  const second = { ...base, sections: [...base.sections, {
+    id: 'evidence', kind: 'bullet-list', title: 'EVIDENCE & VALIDATION',
+    items: ['CHANGE LOG — timestamps recorded', 'QA CHECKS — manual QA passed'],
+  }], sourceHints: {
+    template: 'validation-qa', compositionConfidence: 0.9, emphasisOrder: ['evidence validation'],
+    zoneMap: [{ sectionId: 'hero', x: 0, y: 0, w: 1, h: 0.2 }],
+  } };
+  const responses = [first, second]; let calls = 0;
+  const doc = await extractWithOpenAI(
+    { mode: 'image', path: 'source.png', png: Buffer.from('fake'), dataUrl: 'data:image/png;base64,AA==' },
+    { apiKey: 'test', parse: async () => ({ status: 'completed', output_parsed: responses[calls++] }) },
+  );
+
+  expect(calls).toBe(2);
+  expect(doc.sourceHints.template).toBe('validation-qa');
+  expect(doc.sourceHints.zoneMap).toEqual(second.sourceHints.zoneMap);
+});
+
 it('suppresses stale structural variants when a later attempt yields the canonical section', async () => {
   const base = { meta:{version:1,intent:'comparison',layoutFamily:'auto',sourceMode:'image'}, hero:{title:'BEFORE vs AFTER'}, footer:{facts:[]}, sourceHints:{emphasisOrder:['exact field changes','evidence validation']} };
   const first = { ...base, sections:[
